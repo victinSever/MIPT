@@ -1,0 +1,16 @@
+{
+  "id": "3741051",
+  "name": "MIPT",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "3506877",
+      "name": "weibo",
+      "font_class": "weibo",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    }
+  ]
+}

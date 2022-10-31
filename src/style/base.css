@@ -5,11 +5,14 @@
 }
 
 li {
-    float: left;
     list-style: none;
 }
 
 a {
     text-decoration: none;
     color: #000;
+}
+
+.v-modal{
+    opacity: .2 !important;
 }

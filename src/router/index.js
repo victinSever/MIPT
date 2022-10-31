@@ -7,12 +7,12 @@ const route = [
     {
         path: '/',
         name: 'home',
-        component: () => import('@/views/home/home')
-    },
-    {
-        path: '/login',
-        name: 'login',
-        component: () => import('@/views/user/login')
+        component: () => import('@/views/home/home'),
+        // children: [
+        //     {
+
+        //     }
+        // ]
     },
 ]
 

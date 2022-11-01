@@ -1,9 +1,12 @@
 import fetch from './fetch'
 
 // 获取用户ip
-const getUserIP = () => fetch('get', {}, {}, true)
+const getUserIP = async () => await fetch('', 'get', {}, {}, true)
 
+//账密登录
+const loginByPass = async data => await fetch('/api/user/login/common', 'post', data)
 
 export {
-    getUserIP
+    getUserIP,
+    loginByPass
 }

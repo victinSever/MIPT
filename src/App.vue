@@ -1,17 +1,18 @@
 <template>
   <div id="app">
-    <router-view>     
-    </router-view>
+    <home />
   </div>
 </template>
 
 <script>
+import home from "@/components/Home";
 export default {
-  name: 'App',
-}
+  name: "App",
+  components: { home },
+};
 </script>
 
 <style>
-@import '@/style/base.css';
-@import '@/style/font.css';
+@import "@/style/base.css";
+@import "@/style/font.css";
 </style>

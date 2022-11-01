@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "200967",
+      "name": "3.1点赞",
+      "font_class": "31dianzan",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "5121501",
+      "name": "评论",
+      "font_class": "pinglun",
+      "unicode": "e641",
+      "unicode_decimal": 58945
+    },
+    {
+      "icon_id": "10140082",
+      "name": "view",
+      "font_class": "view",
+      "unicode": "e6ad",
+      "unicode_decimal": 59053
+    },
+    {
       "icon_id": "3506877",
       "name": "weibo",
       "font_class": "weibo",

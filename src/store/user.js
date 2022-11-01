@@ -1,7 +1,7 @@
 export default {
     state: {
         userInfo: {},
-        token: '12321312'
+        token: ''
     },
     mutations: {
         UpdateToken(state, payload) {

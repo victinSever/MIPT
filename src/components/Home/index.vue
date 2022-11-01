@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- 头部 -->
     <el-row class="header">
       <el-row class="header-top">
         <el-col :span="18" :offset="3" class="header-top-in">
@@ -32,11 +33,13 @@
               v-model="keyword"
               size="medium"
               placeholder="检索法律信息"
+              >
+              <div slot="suffix" class="user-input-suffix el-icon-search"></div
             ></el-input>
             <el-button
               class="user-create"
               type="primary"
-              size="medium" 
+              size="medium"
               icon="el-icon-user-solid"
               >创作者中心</el-button
             >
@@ -44,16 +47,28 @@
               class="user-message"
               icon="el-icon-bell"
               circle
-               v-if="isLogin"
+              v-if="isLogin"
             ></el-button>
 
-            <el-popover placement="bottom-end" width="200" trigger="click" v-if="isLogin">
-              <baseInfo />
+            <el-popover
+              placement="bottom-end"
+              width="200"
+              trigger="click"
+              v-if="isLogin"
+            >
+              <BaseInfo />
               <div class="user-img" slot="reference">
                 <img :src="url" />
               </div>
             </el-popover>
-            <el-button type="primary" plain size="medium" class="user-login-register" @click="handleLogin" v-else>
+            <el-button
+              type="primary"
+              plain
+              size="medium"
+              class="user-login-register"
+              @click="handleLogin"
+              v-else
+            >
               <span>登录</span>
               <span>|</span>
               <span>注册</span>
@@ -62,52 +77,73 @@
         </el-col>
       </el-row>
     </el-row>
+
+    <!-- 主页面 -->
     <el-row class="main">
-      <el-col :span="12" :offset="6"> haha </el-col>
+      <router-view> </router-view>
     </el-row>
 
-    <el-row class="footer"> </el-row>
-
-    <el-dialog :visible.sync="centerDialogVisible" width="300px" top="25vh">
+    <!-- 登录 -->
+    <el-dialog
+      :visible.sync="dialogVisible"
+      width="300px"
+      :top="(this.isPassLogin ? 25 : 32) + 'vh'"
+    >
       <template slot="title">
-        <h3>账密登录</h3>
+        <h3>{{ isPassLogin ? "账密登录" : "手机登录" }}</h3>
       </template>
-      <login/>
+      <Login
+        :isPassLogin="isPassLogin"
+        @closeDialog="closeDialog"
+        @changeLoginWay="changeLoginWay"
+      />
     </el-dialog>
   </div>
 </template>
 
 <script>
-import login from "@/components/user/user-login.vue";
-import baseInfo from "@/components/user/user-baseInfo.vue";
+import Login from "@/components/user/user-login.vue";
+import BaseInfo from "@/components/user/user-baseInfo.vue";
 export default {
   name: "homePage",
-  components: { login, baseInfo },
+  components: { Login, BaseInfo },
   data() {
     let menus = [
       {
         label: "首页",
         select: true,
+        url: "/",
+        id: 1,
       },
       {
         label: "类案匹配",
         select: false,
+        url: "/caseMatch",
+        id: 2,
       },
       {
         label: "文书抽取",
         select: false,
+        url: "/paperwork",
+        id: 3,
       },
       {
         label: "案情辩论",
         select: false,
+        url: "/arguments",
+        id: 4,
       },
       {
         label: "课程学习",
         select: false,
+        url: "/courseLearn",
+        id: 5,
       },
       {
         label: "周边商城",
         select: false,
+        url: "/aroundShop",
+        id: 6,
       },
     ];
     return {
@@ -116,34 +152,49 @@ export default {
       url: require("@/assets/logo.png"),
       messageNum: 1,
       keyword: "",
-      isLogin: false, //是否登录
-      centerDialogVisible: false, //是否显示登录组件
+      dialogVisible: false, //是否显示登录组件
+      isPassLogin: true, //登录方式
     };
   },
+  computed: {
+    //是否登录
+    isLogin() {
+      return this.$store.state.user.token !== "";
+    },
+  },
   methods: {
+    //改变登录方式时，调整dialog的高度
+    changeLoginWay() {
+      this.isPassLogin = !this.isPassLogin;
+    },
     // 切换菜单
     handleSelect(target) {
-      this.menus = this.menus.map((item) => {
-        item.select = target.label === item.label ? true : false;
-        return item;
-      });
+      if (this.$route.path !== target.url) {
+        this.$router.push(target.url);
+        this.menus = this.menus.map((item) => {
+          item.select = target.label === item.label ? true : false;
+          return item;
+        });
+      }
     },
     // 点击登录按钮
     handleLogin() {
-      this.centerDialogVisible = true
-    }
+      this.dialogVisible = true;
+    },
+    //关闭菜单
+    closeDialog() {
+      this.dialogVisible = false;
+    },
   },
 };
 </script>
 
 <style lang='scss' scoped>
-
 .header {
-  height: 120px;
+  height: 60px;
 
-  .header-top,
-  .header-banner {
-    height: 50%;
+  .header-top {
+    height: 100%;
     display: flex;
     align-items: center;
     border-bottom: 1px solid #eeecec;
@@ -177,6 +228,7 @@ export default {
     .header-menu {
       height: 100%;
       box-sizing: border-box;
+      color: #515767;
 
       .menu-item {
         float: left;
@@ -201,6 +253,7 @@ export default {
     .header-menus2 {
       cursor: pointer;
       display: none;
+      min-width: 100px;
     }
   }
 
@@ -212,6 +265,27 @@ export default {
     .user-create,
     .user-message {
       margin-right: 20px;
+    }
+
+    .user-input {
+      border: 1px solid #dcdfe6;
+      border-radius: 5px;
+
+      .el-icon-search {
+          font-size: 25px;
+          height: 100%;
+          text-align: center;
+          transform: translateY(5px); 
+          cursor: pointer;
+        }
+    }
+
+    .user-input:hover {
+      border: 1px solid #409eff;
+
+      .el-icon-search {
+        color: #a1a1a7;
+      }
     }
 
     .user-message {
@@ -258,20 +332,38 @@ export default {
   }
 }
 
-@media screen and (max-width: 1300px) {
-  .header .header-menu {
-    display: none;
-  }
+@media screen and (max-width: 1350px) {
+  .header .header-top-left {
+    .header-logo {
+      font-size: 30px;
+      margin-right: 30px;
+    }
 
-  .header .header-menus2 {
-    display: inline-block;
+    .header-menu {
+      display: none;
+    }
+
+    .header-menus2 {
+      display: inline-block;
+    }
   }
 }
 
 @media screen and (max-width: 750px) {
-  .header.user-input .el-input__inner {
-    height: 30px;
-    width: 80%;
+  .header .header-top-left {
+    .header-logo {
+      font-size: 20px;
+    }
+  }
+  .header .header-top-right {
+    .user-input{
+      width: 80%;
+      // height: 25px;
+    }
+    
+    .user-message{
+      display: none;
+    }
   }
 }
 </style>

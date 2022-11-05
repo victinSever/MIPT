@@ -19,7 +19,7 @@ module.exports = {
   assetsDir: './static',
 
   //index主页面路径
-  indexPath: './index.html',
+  // indexPath: './index.html',
 
   devServer: {
     proxy: {

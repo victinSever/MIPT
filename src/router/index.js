@@ -12,38 +12,44 @@ const routes = [
     {
         path: '/',
         name: 'passage',
-        meta: { title: 'MIPT'},
+        meta: { title: 'FLPT'},
         component: () => import('@/views/Passage'),
     },
     {
         path: '/caseMatch',
         name: 'caseMatch',
-        meta: { title: 'MIPT - 类案匹配'},
+        meta: { title: 'FLPT - 类案匹配'},
         component: () => import('@/views/CaseMatch'),
     },
     {
         path: '/paperwork',
         name: 'paperwork',
-        meta: { title: 'MIPT - 文书抽取'},
+        meta: { title: 'FLPT - 文书抽取'},
         component: () => import('@/views/Paperwork'),
     },
     {
         path: '/arguments',
         name: 'arguments',
-        meta: { title: 'MIPT - 案情辩论'},
+        meta: { title: 'FLPT - 案情辩论'},
         component: () => import('@/views/Arguments'),
     },
     {
         path: '/courseLearn',
         name: 'courseLearn',
-        meta: { title: 'MIPT - 课程学习'},
+        meta: { title: 'FLPT - 课程学习'},
         component: () => import('@/views/CourseLearn'),
     },
     {
         path: '/aroundShop',
         name: 'aroundShop',
-        meta: { title: 'MIPT - 周边商城'},
+        meta: { title: 'FLPT - 周边商城'},
         component: () => import('@/views/AroundShop'),
+    },
+    {
+        path: '/userAgreement',
+        name: 'userAgreement',
+        meta: { title: '用户协议'},
+        component: () => import('@/views/UserAgreement'),
     },
 ]
 

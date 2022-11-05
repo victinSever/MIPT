@@ -5,7 +5,7 @@
       <el-row class="header-top">
         <el-col :span="18" :offset="3" class="header-top-in">
           <div class="header-top-left">
-            <div class="header-logo"><span>MIPT</span></div>
+            <div class="header-logo"><span>FLPT</span></div>
             <ul class="header-menu">
               <li
                 v-for="item in menus"
@@ -52,7 +52,7 @@
 
             <el-popover
               placement="bottom-end"
-              width="200"
+              width="250"
               trigger="click"
               v-if="isLogin"
             >
@@ -87,13 +87,13 @@
     <el-dialog
       :visible.sync="dialogVisible"
       width="300px"
-      :top="(this.isPassLogin ? 25 : 32) + 'vh'"
+      :top="(loginWay === 1 ? 25 : 26) + 'vh'"
     >
       <template slot="title">
-        <h3>{{ isPassLogin ? "账密登录" : "手机登录" }}</h3>
+        <h3>{{ loginWay === 1 ? "账密登录" : loginWay === 2 ? '手机登录' : '手机重置密码' }}</h3>
       </template>
       <Login
-        :isPassLogin="isPassLogin"
+        :loginWay="loginWay"
         @closeDialog="closeDialog"
         @changeLoginWay="changeLoginWay"
       />
@@ -149,11 +149,11 @@ export default {
     return {
       menus,
       activeIndex: "1",
-      url: require("@/assets/logo.png"),
+      url: 'https://tva3.sinaimg.cn/large/008cs7isly8h7u5on9iu5j30u00u0q5i.jpg',
       messageNum: 1,
       keyword: "",
       dialogVisible: false, //是否显示登录组件
-      isPassLogin: true, //登录方式
+      loginWay: 1, //登录方式，1账密登录，2手机号登录,3重置密码
     };
   },
   computed: {
@@ -164,8 +164,8 @@ export default {
   },
   methods: {
     //改变登录方式时，调整dialog的高度
-    changeLoginWay() {
-      this.isPassLogin = !this.isPassLogin;
+    changeLoginWay(type) {
+      this.loginWay = type
     },
     // 切换菜单
     handleSelect(target) {

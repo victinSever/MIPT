@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3741051 */
-  src: url('iconfont.woff2?t=1667310888753') format('woff2'),
-       url('iconfont.woff?t=1667310888753') format('woff'),
-       url('iconfont.ttf?t=1667310888753') format('truetype');
+  src: url('iconfont.woff2?t=1667625415933') format('woff2'),
+       url('iconfont.woff?t=1667625415933') format('woff'),
+       url('iconfont.ttf?t=1667625415933') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,54 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-vipcard:before {
+  content: "\e6ee";
+}
+
+.icon-coursera:before {
+  content: "\e660";
+}
+
+.icon-gift:before {
+  content: "\e842";
+}
+
+.icon-bijiben:before {
+  content: "\e607";
+}
+
+.icon-flag:before {
+  content: "\e764";
+}
+
+.icon-VIP:before {
+  content: "\e83d";
+}
+
+.icon-track:before {
+  content: "\e795";
+}
+
+.icon-person:before {
+  content: "\e871";
+}
+
+.icon-arrow-right:before {
+  content: "\e743";
+}
+
+.icon-arrow-left:before {
+  content: "\e744";
+}
+
+.icon-messages:before {
+  content: "\e671";
+}
+
+.icon-rili:before {
+  content: "\e620";
 }
 
 .icon-31dianzan:before {

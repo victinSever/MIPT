@@ -3,6 +3,8 @@
 //   transpileDependencies: true
 // })
 module.exports = {
+  lintOnSave: false, //关闭语法检查
+
   devServer: {
       proxy: {
         // 第三方接口获取用户ip地址

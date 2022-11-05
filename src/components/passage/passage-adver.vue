@@ -35,7 +35,7 @@ export default {
     position: relative;
     cursor: pointer;
     margin-bottom: 10px;
-    transition-duration: 1s;
+    overflow: hidden;
 
     .categoryName, .el-icon-close{
       position: absolute;
@@ -64,9 +64,19 @@ export default {
     .el-icon-close:hover {
       color: #ddd;
     }
+
+    .el-image{
+      transition: 1s;
+    }
+
+    .el-image:hover{
+      transform: scale(110%);
+    }
 }
 
-.adver:hover .el-icon-close{
-    display: inline;
+.adver:hover{     
+    .el-icon-close{
+      display: inline;
+    }
 }
 </style>

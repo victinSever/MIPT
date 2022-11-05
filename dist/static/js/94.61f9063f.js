@@ -1,2 +1,0 @@
-"use strict";(self["webpackChunkmipt"]=self["webpackChunkmipt"]||[]).push([[94],{2094:function(e,n,t){t.r(n),t.d(n,{default:function(){return f}});var r=function(){var e=this,n=e._self._c;return n("div",[e._v(" 这里是用户协议UserAgreement ")])},u=[],s={name:"UserAgreement"},i=s,l=t(1001),c=(0,l.Z)(i,r,u,!1,null,"20924699",null),f=c.exports}}]);
-//# sourceMappingURL=94.61f9063f.js.map

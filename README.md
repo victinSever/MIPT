@@ -23,17 +23,38 @@
 - [新浪图床](https://pic.gimhoy.com/)
 
 ## 项目搭建
-```bash 项目搭建
-//依赖安装
-npm install
-//启动服务
-npm run serve
-//打包
-npm run build
-```
+
+- 依赖安装
+
+  ```bash 依赖安装
+  npm install
+  ```
+
+- 启动服务
+
+  ```bash 启动服务
+  npm run serve
+  ```
+
+- 项目打包
+
+  ```bash 项目打包
+  npm run build
+  ```
 
 ## 项目模块
+
 暂未更新
 
 ## 版本
 1.0.0
+
+## 部署
+
+部署链接：
+
+https://victinsever.github.io/MIPT/dist/index.html
+
+百度网盘链接：
+
+暂未上传

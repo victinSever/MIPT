@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="scroll-lisener">
     <el-row class="header">
       <el-col class="tag-list" :span="12" :offset="6">
         <span
@@ -246,9 +246,24 @@ export default {
       advers,
       tagActive: 1,
       orderActive: 1,
+      loadTimes: 0
     };
   },
+  mounted() {
+    const listenr = window.addEventListener('scroll', this.handleScroll, true)
+  },
   methods: {
+    // 监听鼠标位置，进行数据懒加载
+    handleScroll() {
+      let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+      let rate = Math.floor(scrollTop / screen.height)
+      console.log(scrollTop, screen.height, rate);   
+      if(rate > this.loadTimes) {
+        this.loadTimes++
+        console.log('临界次数+1');
+      }
+    },
+
     handleChangeTagActive(id) {
       this.tagActive = id;
     },
@@ -268,9 +283,13 @@ export default {
 .header {
   height: 50px;
   border-bottom: 1px solid #eeecec;
-  box-shadow: 2px 2px 2px #ccc;
+  box-shadow: 1px 1px 1px #ccc;
   font-size: 14px;
   color: #71777c;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background-color: #fff;
 
   .tag-list {
     height: 100%;

@@ -54,7 +54,14 @@ const routes = [
 ]
 
 const router = new Router({
-    mode: 'history',
+    //history模式，需要和服务端配合才能在生产环境下正常使用
+    // mode: 'history',
+    // hash
+    mode: 'hash',
+
+    // 基本路由，和vue.config.js中的publicPath一致
+    // base: '/vue/',
+
     routes: routes
 })
 

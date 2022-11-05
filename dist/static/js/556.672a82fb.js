@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkmipt"]=self["webpackChunkmipt"]||[]).push([[556],{6556:function(e,n,r){r.r(n),r.d(n,{default:function(){return s}});var u=function(){var e=this,n=e._self._c;return n("dir",[e._v(" Paperwork ")])},t=[],l={name:"PaperworkPage"},a=l,i=r(1001),p=(0,i.Z)(a,u,t,!1,null,null,null),s=p.exports}}]);
+//# sourceMappingURL=556.672a82fb.js.map

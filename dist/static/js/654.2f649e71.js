@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkmipt"]=self["webpackChunkmipt"]||[]).push([[654],{4654:function(n,e,u){u.r(e),u.d(e,{default:function(){return c}});var r=function(){var n=this,e=n._self._c;return e("div",[n._v(" CourseLearn ")])},t=[],l={name:"CourseLearn"},s=l,a=u(1001),i=(0,a.Z)(s,r,t,!1,null,null,null),c=i.exports}}]);
+//# sourceMappingURL=654.2f649e71.js.map

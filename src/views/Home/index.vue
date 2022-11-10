@@ -257,7 +257,6 @@ export default {
     handleScroll() {
       let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
       let rate = Math.floor(scrollTop / screen.height)
-      console.log(scrollTop, screen.height, rate);   
       if(rate > this.loadTimes) {
         this.loadTimes++
         console.log('临界次数+1');
@@ -316,8 +315,6 @@ export default {
 }
 
 .main {
-  background-color: #f4f5f5;
-  min-height: 90vh;
 
   .main-inner {
     margin-top: 20px;

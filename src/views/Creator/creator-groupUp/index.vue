@@ -1,12 +1,10 @@
-V.<template>
-  <dir>
-    Paperwork
-  </dir>
+<template>
+  <div>groupUp</div>
 </template>
 
 <script>
 export default {
-    name: 'PaperworkPage'
+
 }
 </script>
 

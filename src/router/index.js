@@ -11,45 +11,70 @@ Vue.use(Router)
 const routes = [
     {
         path: '/',
-        name: 'passage',
         meta: { title: 'FLPT'},
-        component: () => import('@/views/Passage'),
+        component: () => import('@/views/Home'),
     },
     {
-        path: '/caseMatch',
-        name: 'caseMatch',
-        meta: { title: 'FLPT - 类案匹配'},
-        component: () => import('@/views/CaseMatch'),
-    },
-    {
-        path: '/paperwork',
-        name: 'paperwork',
-        meta: { title: 'FLPT - 文书抽取'},
-        component: () => import('@/views/Paperwork'),
+        path: '/tool',
+        meta: { title: 'FLPT - 工具箱'},
+        component: () => import('@/views/Tool'),
     },
     {
         path: '/arguments',
-        name: 'arguments',
         meta: { title: 'FLPT - 案情辩论'},
         component: () => import('@/views/Arguments'),
     },
     {
         path: '/courseLearn',
-        name: 'courseLearn',
         meta: { title: 'FLPT - 课程学习'},
         component: () => import('@/views/CourseLearn'),
     },
     {
         path: '/aroundShop',
-        name: 'aroundShop',
         meta: { title: 'FLPT - 周边商城'},
         component: () => import('@/views/AroundShop'),
     },
     {
         path: '/userAgreement',
-        name: 'userAgreement',
-        meta: { title: '用户协议'},
+        meta: { title: 'FLPT - 用户协议'},
         component: () => import('@/views/UserAgreement'),
+    },
+    {
+        path: '/editor',
+        meta: { title: 'FLPT - 创作文章'},
+        component: () => import('@/views/Editor'),
+    },
+    {
+        path: '/creator',
+        meta: { title: 'FLPT - 创作者中心'},
+        component: () => import('@/views/Creator'),
+        children: [
+            {
+                path: 'content',
+                meta: { title: 'FLPT - 文章内容'},
+                component: () => import('@/views/Creator/creator-content'),
+            },
+            {
+                path: 'dataCenter',
+                meta: { title: 'FLPT - 数据中心'},
+                component: () => import('@/views/Creator/creator-dataCenter'),
+            },
+            {
+                path: 'groupUp',
+                meta: { title: 'FLPT - 创作成长'},
+                component: () => import('@/views/Creator/creator-groupUp'),
+            },
+            {
+                path: 'activityCenter',
+                meta: { title: 'FLPT - 活动中心'},
+                component: () => import('@/views/Creator/creator-activityCenter'),
+            },
+            {
+                path: 'helpCenter',
+                meta: { title: 'FLPT - 帮助中心'},
+                component: () => import('@/views/Creator/creator-helpCenter'),
+            }
+        ]
     },
 ]
 

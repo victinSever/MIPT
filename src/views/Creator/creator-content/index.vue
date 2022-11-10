@@ -1,12 +1,10 @@
-V.<template>
-  <dir>
-    caseMatch
-  </dir>
+<template>
+  <div>creator</div>
 </template>
 
 <script>
 export default {
-    name: 'caseMatch'
+
 }
 </script>
 

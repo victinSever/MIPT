@@ -4,10 +4,10 @@
       <div class="inbox-left">
         <div class="card">
           <!-- 用户信息 -->
-          <div class="session userInfo">
+          <div class="session userInfo" ref="haha">
             <el-image :src="userInfo.userImage"></el-image>
             <div class="userInfo-text">
-              <p class="userInfo-username">{{ userInfo.username }}</p>
+              <p class="userInfo-username">{{ userInfo.username }} <i @click="copyToCutting(userInfo.username)" class="iconfont icon-copy"></i></p>
               <p class="userInfo-role">{{ userInfo.role }}</p>
             </div>
           </div>
@@ -117,6 +117,13 @@ export default {
     };
   },
   methods: {
+    copyToCutting(text) {
+      const copyToClipboard = (text) => navigator.clipboard && navigator.clipboard.writeText && navigator.clipboard.writeText(text)
+
+      copyToClipboard(text)
+      this.$message.success('复制成功')
+    },
+
     // 前往写作页面
     gotoWritePassage: function() {
       if(this.$route.path !== '/writePassage')
@@ -138,7 +145,7 @@ export default {
   margin-top: 20px;
 }
 .inbox {
-  width: 50%;
+  width: 70%;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -149,7 +156,7 @@ export default {
   }
 
   .inbox-left {
-    width: 30%;
+    width: 20%;
     min-width: 250px;
     height: 80vh;
 
@@ -174,6 +181,9 @@ export default {
           display: flex;
           flex-direction: column;
           justify-content: space-around;
+          i{
+            cursor: pointer;
+          }
 
           .userInfo-role {
             font-size: 14px;
@@ -190,7 +200,7 @@ export default {
   }
 
   .inbox-right {
-    width: 67%;
+    width: 78%;
     min-width: 500px;
     height: 120vh;
   }

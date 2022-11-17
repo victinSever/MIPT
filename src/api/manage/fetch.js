@@ -25,13 +25,14 @@ export default async (
     type = 'GET', 
     params = {}, 
     header = {}, 
-    isIp = false
+    proxyUrl = ''
     ) => {
 
-    // 向第三方获取ip更改代理地址
-    if(isIp) url = ipUrl.replace(ipBaseUrl, ipBaseUrlProxy)
-
-    else url = baseUrl + url
+    // // 向第三方获取ip更改代理地址
+    // if(proxyUrl) {
+    //     url = proxyUrl + url
+    // }
+    if(!url.includes('/ip') && !url.includes('imageSever')) url = '/serve' + url
 
     type = type.toUpperCase()
 
@@ -40,6 +41,8 @@ export default async (
             method: type, url, data: params, header
         })
     }
+
+    console.log(url);
     return await axios({
         method: type, url, params, header
     })

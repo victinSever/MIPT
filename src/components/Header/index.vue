@@ -7,7 +7,7 @@
       <el-row class="header-top">
         <el-col :span="18" :offset="3" class="header-top-in">
           <div class="header-top-left">
-            <div class="header-logo"><span>FLPT</span></div>
+            <div class="header-logo"><span>CLF</span></div>
             <ul class="header-menu">
               <li
                 v-for="item in menus"
@@ -38,10 +38,12 @@
                 placeholder="检索法律信息"
                 @focus="isInputFocus = true"
                 @blur="isInputFocus = false"
+                @keyup.enter.native="searchHandler"
               >
                 <div
                   slot="suffix"
                   class="user-input-suffix el-icon-search"
+                  @click="searchHandler"
                 ></div
               ></el-input>
             </transition>
@@ -51,7 +53,6 @@
                 type="primary"
                 size="medium"
                 icon="el-icon-user-solid"
-                v-show="!isInputFocus"
                 @click="gotoCreator"
                 >创作者中心</el-button
               >
@@ -175,12 +176,22 @@ export default {
     },
   },
   methods: {
-    gotoCreator: function() {
-        if (this.$route.path !== '/creator')
-            this.$router.push('/creator/content')
+    // 搜索事件- 
+    searchHandler() {
+      const keyword = this.keyword.trim()
+      const { query } = this.$route
+      if(query.query === keyword) return //节流
+
+      this.$router.push({
+        path: '/search',
+        query: {
+          query: keyword,
+          type: 0
+        }
+      })
     },
 
-    // 搜索框聚焦时
+     // 搜索框聚焦时
     inputFocus: function (e) {
       // console.log(e.target);
       // console.log(this.$refs.inputSearch);
@@ -188,6 +199,11 @@ export default {
       // this.$refs.creatorButton.style.display = 'none'
       // console.log(this.$refs.inputSearch.focus());
       // // this.$refs.inputSearch.value = 'haha'
+    },
+
+    gotoCreator: function() {
+        if (this.$route.path !== '/creator')
+            this.$router.push('/creator/content')
     },
 
     //改变登录方式时，调整dialog的高度
@@ -249,7 +265,7 @@ export default {
 
     .header-logo {
       margin-right: 60px;
-      font-family: "kaiti";
+      font-family: "华文行楷";
       color: #1e80ff;
       font-size: 40px;
       cursor: pointer;
@@ -316,9 +332,10 @@ export default {
       }
     }
 
-    .focus {
-      width: 350px;
-      background-color: #ccc;
+    .user-input input:focus {
+      width: 500px;
+      background-color: #000;
+      animation: inputFocusAnimate 1s linear 0s;
     }
 
     .user-input:hover {
@@ -367,6 +384,16 @@ export default {
   }
 }
 
+// 聚焦的动画
+@keyframes inputFocusAnimate {
+  from {
+    background-color: #ccc;
+  }
+  to {
+    background-color: #777;
+  }
+}
+
 @media screen and (max-width: 1500px) {
   .header .header-top-right .user-create {
     display: none;
@@ -386,6 +413,10 @@ export default {
 
     .header-menus2 {
       display: inline-block;
+    }
+
+    .user-login-register {
+
     }
   }
 }
@@ -407,4 +438,5 @@ export default {
     }
   }
 }
+
 </style>

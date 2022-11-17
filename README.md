@@ -1,8 +1,11 @@
-# FLPT
+# CLF项目介绍
 一个专为法律人打造的社交、辩论，答疑平台，基于智能文本抽取算法，可以进行文本抽取，文案生成，法律辩论和信息检索
 
-## 技术架构
+## 业务架构
+![image](https://tva2.sinaimg.cn/large/008cs7isly8h868p6sbtoj313x0u0dja.jpg)
 
+
+## 技术架构
 前端技术架构主要为Vue2项目，具体技术栈如下：
 
 - Vue2（框架）
@@ -16,6 +19,7 @@
 
 - NProgress（微进度条）
 - iconfont(阿里矢量图标库)
+- mavon-editor（markdown编辑器）
 
 工具：
 
@@ -42,9 +46,9 @@
   npm run build
   ```
 
-## 项目模块
+## 前端业务模块设计
 
-暂未更新
+
 
 ## 版本
 1.0.0

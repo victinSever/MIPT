@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "77828",
+      "name": "收藏",
+      "font_class": "shoucang",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "880160",
+      "name": "举报",
+      "font_class": "jubao",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "25853326",
+      "name": "转发",
+      "font_class": "zhuanfa",
+      "unicode": "e6e8",
+      "unicode_decimal": 59112
+    },
+    {
+      "icon_id": "11488013",
+      "name": "copy",
+      "font_class": "copy",
+      "unicode": "e74a",
+      "unicode_decimal": 59210
+    },
+    {
       "icon_id": "52510",
       "name": "vipcard",
       "font_class": "vipcard",

@@ -8,73 +8,62 @@ NProgress.configure({ showSpinner: false })   // 显示右上角螺旋加载提�
 
 Vue.use(Router)
 
+// 二级路由
+import creator from './creator'
+
+// 一级路由
 const routes = [
     {
         path: '/',
-        meta: { title: 'FLPT'},
+        meta: { title: 'CLF'},
         component: () => import('@/views/Home'),
     },
     {
         path: '/tool',
-        meta: { title: 'FLPT - 工具箱'},
+        meta: { title: 'CLF - 工具箱'},
         component: () => import('@/views/Tool'),
     },
     {
         path: '/arguments',
-        meta: { title: 'FLPT - 案情辩论'},
+        meta: { title: 'CLF - 案情辩论'},
         component: () => import('@/views/Arguments'),
     },
     {
         path: '/courseLearn',
-        meta: { title: 'FLPT - 课程学习'},
+        meta: { title: 'CLF - 课程学习'},
         component: () => import('@/views/CourseLearn'),
     },
     {
         path: '/aroundShop',
-        meta: { title: 'FLPT - 周边商城'},
+        meta: { title: 'CLF - 周边商城'},
         component: () => import('@/views/AroundShop'),
     },
     {
         path: '/userAgreement',
-        meta: { title: 'FLPT - 用户协议'},
+        meta: { title: 'CLF - 用户协议'},
         component: () => import('@/views/UserAgreement'),
     },
     {
         path: '/editor',
-        meta: { title: 'FLPT - 创作文章'},
+        meta: { title: 'CLF - 创作文章'},
         component: () => import('@/views/Editor'),
     },
     {
         path: '/creator',
-        meta: { title: 'FLPT - 创作者中心'},
+        meta: { title: 'CLF - 创作者中心'},
         component: () => import('@/views/Creator'),
-        children: [
-            {
-                path: 'content',
-                meta: { title: 'FLPT - 文章内容'},
-                component: () => import('@/views/Creator/creator-content'),
-            },
-            {
-                path: 'dataCenter',
-                meta: { title: 'FLPT - 数据中心'},
-                component: () => import('@/views/Creator/creator-dataCenter'),
-            },
-            {
-                path: 'groupUp',
-                meta: { title: 'FLPT - 创作成长'},
-                component: () => import('@/views/Creator/creator-groupUp'),
-            },
-            {
-                path: 'activityCenter',
-                meta: { title: 'FLPT - 活动中心'},
-                component: () => import('@/views/Creator/creator-activityCenter'),
-            },
-            {
-                path: 'helpCenter',
-                meta: { title: 'FLPT - 帮助中心'},
-                component: () => import('@/views/Creator/creator-helpCenter'),
-            }
-        ]
+        children: creator
+    },
+    {
+        path: '/search',
+        meta: { title: 'CLF - 搜索'},
+        component: () => import('@/views/Search'),
+    },
+    {
+        path: '/post/:id',
+        name: 'post',
+        meta: { title: 'CLF'},
+        component: () => import('@/views/Post'),
     },
 ]
 
@@ -90,8 +79,13 @@ const router = new Router({
     routes: routes
 })
 
+// 拦截器
 router.beforeEach((to, from, next) => { 
     document.title = to.meta.title; //设置标题
+    
+    if(to.name === 'post') {
+        if(to.params.title) document.title += ' - ' + to.params.title
+    }
 
     NProgress.start()   // 开启进度条
 

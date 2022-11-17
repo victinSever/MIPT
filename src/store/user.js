@@ -26,7 +26,7 @@ export default {
 
         // 获取用户ip
         async getUserIP() {
-            return await fetch('', 'get', {}, {}, true)
+            return await fetch('/ip/cityjson?ie=utf-8', 'get')
         },
         // 账密登录
         async getLoginByPass(context, payload) {

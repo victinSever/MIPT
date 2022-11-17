@@ -21,16 +21,32 @@ module.exports = {
   //index主页面路径
   // indexPath: './index.html',
 
+  
   devServer: {
-    proxy: {
-      // 第三方接口获取用户ip地址
+      proxy: {
+      // 第三方ip地址
       '/ip': {
-        target: 'http://pv.sohu.com', //服务端地址
+        target: 'http://pv.sohu.com',
         ws: true,
-        changeOrigin: true, // 允许跨域
+        changeOrigin: true,
         pathRewrite: {
-          '^/ip': ''   // 标识替换，使用 '/ip' 代替真实的接口地址
+          '^/ip': ''  
         }
+      },
+      // 文件服务器地址
+      '/imageSever': {
+        // http://flpt-file.oss-cn-chengdu.aliyuncs.com
+        // http://222.177.66.230:9898
+        target: 'http://flpt-file.oss-cn-chengdu.aliyuncs.com',
+        ws: true,
+        changeOrigin: true,
+        pathRewrite: {
+          '^/imageSever': '' 
+        }
+      },
+      '/sever':{
+        target:'https://53r23232p6.goho.co',
+        ws:true,
       }
     }
   }

@@ -1,7 +1,7 @@
 <template>
   <div id="scroll-lisener">
     <el-row class="header">
-      <el-col class="tag-list" :span="12" :offset="6">
+      <div class="tag-list">
         <span
           v-for="item in tags"
           :key="item.value"
@@ -9,10 +9,10 @@
           @click="handleChangeTagActive(item.value)"
           >{{ item.label }}</span
         >
-      </el-col>
+      </div>
     </el-row>
     <el-row class="main">
-      <el-col class="main-inner" :span="12" :offset="6">
+      <div class="main-inner">
         <el-col class="message-left">
           <el-card class="box-card">
             <div class="order-list">
@@ -42,7 +42,7 @@
             <PassageAdver v-for="item in advers" :key="item.id" :data="item"/>
           <!-- </el-card> -->
         </el-col>
-      </el-col>
+      </div>
     </el-row>
   </div>
 </template>
@@ -70,7 +70,9 @@ export default {
       {
         id: "12312",
         username: "法盲张三",
-        publishTime: "2022-11-1 19:00:00",
+        userImage: 'https://tva3.sinaimg.cn/large/008cs7isly8h7u5on9iu5j30u00u0q5i.jpg',
+        publishImage: 'https://tva1.sinaimg.cn/large/008cs7isly8h88hfgvz1qj31ao0t6n3x.jpg',
+        publishTime: "2022-11-1 19:00:00",    
         title: "何劳荣一案，到底谁是真正的主谋？个人理解，大家交流一下",
         discription:
           "何劳荣， 山东人， 爱吃河粉，爱吃蔬菜，多运动，邵淑华，山西二年，杀害李某某一家",
@@ -84,6 +86,8 @@ export default {
       {
         id: "21321312",
         username: "暴力美学",
+        userImage: 'https://tva3.sinaimg.cn/large/008cs7isly8h7u5on9iu5j30u00u0q5i.jpg',
+        publishImage: 'https://tva1.sinaimg.cn/large/008cs7isly8h88hfgvz1qj31ao0t6n3x.jpg',
         publishTime: "2022-10-25 19:00:00",
         title: "这里有一个简单辩论，大家交流一下",
         discription:
@@ -111,6 +115,8 @@ export default {
       {
         id: "264556",
         username: "文武双全",
+        userImage: '',
+        publishImage: '',
         publishTime: "2022-10-03 19:00:00",
         title: "类案匹配模糊，如何扩大精准范围？",
         discription:
@@ -124,11 +130,64 @@ export default {
       },
       {
         id: "4374376",
-        username: "暴力美学",
+        username: "纸上阡陌",
+        userImage: 'https://tva3.sinaimg.cn/large/008cs7isly8h7u5on9iu5j30u00u0q5i.jpg',
+        publishImage: 'https://tva1.sinaimg.cn/large/008cs7isly8h88hfgvz1qj31ao0t6n3x.jpg',
         publishTime: "2022-11-2 19:00:00",
-        title: "这里有一个简单辩论，大家交流一下",
+        title: "CLF平台的搭建一体化流程文档",
+        category: '类案',
+        tags: ['项目创建', 'CLF'],
         discription:
-          "何劳荣， 山东人， 爱吃河粉，爱吃蔬菜，多运动，邵淑华，山西二年，杀害李某某一家321321311231321312",
+          `# CLF项目介绍
+一个专为法律人打造的社交、辩论，答疑平台，基于智能文本抽取算法，可以进行文本抽取，文案生成，法律辩论和信息检索
+
+## 业务架构
+![image](https://tva2.sinaimg.cn/large/008cs7isly8h868p6sbtoj313x0u0dja.jpg)
+
+
+## 技术架构
+前端技术架构主要为Vue2项目，具体技术栈如下：
+
+- Vue2（框架）
+- Vuex（状态管理）
+- Vue-router（路由管理）
+- ElementUI（组件库）
+- Sass（CSS语法扩展）
+- Axios（ajax请求封装库）
+
+优化技术：
+
+- NProgress（微进度条）
+- iconfont(阿里矢量图标库)
+- mavon-editor（markdown编辑器）
+
+工具：
+
+- VScode
+- [新浪图床](https://pic.gimhoy.com/)
+
+## 项目搭建
+
+- 依赖安装
+
+
+## 前端业务模块设计
+
+
+
+## 版本
+1.0.0
+
+## 部署
+
+部署链接：
+
+https://victinsever.github.io/MIPT/dist/index.html
+
+百度网盘链接：
+
+暂未上传
+`,
         record: {
           views: "10w",
           zan: "255",
@@ -280,6 +339,7 @@ export default {
 
 <style lang='scss' scoped>
 .header {
+  width: 100%;
   height: 50px;
   border-bottom: 1px solid #eeecec;
   box-shadow: 1px 1px 1px #ccc;
@@ -291,6 +351,8 @@ export default {
   background-color: #fff;
 
   .tag-list {
+    width: 55%;
+    margin: 0 auto;
     height: 100%;
     display: flex;
     align-items: center;
@@ -315,18 +377,21 @@ export default {
 }
 
 .main {
+  margin-top: 20px;
 
   .main-inner {
-    margin-top: 20px;
+    
+    width: 55%;
+    margin: 0 auto;
 
     .message-left {
-      width: 68%;
+      width: 75%;
       background-color: #fff;
     }
 
     .message-right {
       float: right;
-      width: 30%;
+      width: 23%;
     }
   }
 }
@@ -350,8 +415,9 @@ export default {
   padding-top: 5px;
 }
 
-@media screen and (max-width: 1350px) {
-  .main .main-inner {
+@media screen and (max-width: 1500px) {
+  .main .main-inner {   
+
     .message-left {
       width: 100%;
     }
@@ -360,4 +426,30 @@ export default {
     }
   }
 }
+
+@media screen and (max-width: 1350px) {
+  .header{
+    .tag-list {
+      width: 80%;
+    }
+  }
+  .main .main-inner {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .header{
+    .tag-list {
+      width: 95%;
+    }
+  }
+  .main .main-inner {
+    width: 95%;
+  }
+}
+
+
+
+
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div :class="'passage-item' + (item.isView ? ' viewed' : '')">
+  <div :class="'passage-item' + (item.isView ? ' viewed' : '')" @click="gotoPost(item)">
     <div class="item-top">
       <span class="username">{{ item.username }}</span>
       <span>|</span>
@@ -7,8 +7,8 @@
     </div>
 
     <div class="item-main">
-      <h4 class="title">{{ item.title }}</h4>
-      <p class="discription">{{ item.discription }}</p>
+      <h4 class="title" v-html="highlight(item.title)"></h4>
+      <p class="discription" v-html="highlight(item.discription)"></p>
     </div>
     <div class="item-bottom">
       <span class="iconfont icon-view"> {{ " " + item.record.views }}</span>
@@ -21,35 +21,35 @@
 </template>
 
 <script>
+import { getNumberOfDays } from '@/utils/index';
 export default {
   name: "passageItem",
-  props: ["item"],
+  props: {
+    item: Object
+  },
   computed: {
     passTime() {
-      return this.getNumberOfDays(this.item.publishTime, new Date())
+      return getNumberOfDays(this.item.publishTime)
+    },
+    keyword() {
+      return this.$route.query.query || ''
     }
   },
   methods: {
-    // 日期相减得到天数
-    getNumberOfDays(date1, date2) {
-      //获得天数
-      //date1：开始日期，date2结束日期
-      let a1 = Date.parse(new Date(date1));
-      let a2 = Date.parse(new Date(date2));
-      let day = parseInt((a2 - a1) / (1000 * 60 * 60 * 24)); //核心：时间戳相减，然后除以天数
-      if(day > 356) return (day % 356) + '年前'     
-      else if(day > 30) return (day % 30) + '月前'
-      else if(day > 7) return (day % 7) + '周前'
-      else if(day > 1) return day + '天前'
-      else {
-        let hour = parseInt((a2 - a1) / (1000 * 60 * 60))
-        if(hour >= 1) return hour + '小时前'
-        else {
-          let minite = parseInt((a2 - a1) / (1000 * 60))
-          if(minite >= 1) return minite + '分钟前'
-          else return '刚刚'
+    // 添加高亮
+    highlight(str) {
+      const arr = str.split(this.keyword)
+      return arr.join(`<span style="color: red;">${this.keyword}</span>`)
+    },
+
+    // 跳转到文章详情
+    gotoPost(item) {
+      this.$router.push({
+        name: 'post',
+        params: {
+          ...item
         }
-      }
+      })
     },
   },
 };

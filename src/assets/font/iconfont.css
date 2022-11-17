@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3741051 */
-  src: url('iconfont.woff2?t=1667625415933') format('woff2'),
-       url('iconfont.woff?t=1667625415933') format('woff'),
-       url('iconfont.ttf?t=1667625415933') format('truetype');
+  src: url('iconfont.woff2?t=1668677618500') format('woff2'),
+       url('iconfont.woff?t=1668677618500') format('woff'),
+       url('iconfont.ttf?t=1668677618500') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,22 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-shoucang:before {
+  content: "\e602";
+}
+
+.icon-jubao:before {
+  content: "\e603";
+}
+
+.icon-zhuanfa:before {
+  content: "\e6e8";
+}
+
+.icon-copy:before {
+  content: "\e74a";
 }
 
 .icon-vipcard:before {

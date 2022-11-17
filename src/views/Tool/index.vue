@@ -1,8 +1,8 @@
 <template>
-  <div class="root">
-     <el-col :span="12" :offset="6" class="centerBox">
-      sads
-     </el-col>
+  <div class="tool">
+     <div class="centerBox">
+      211231
+     </div>
   </div>
 </template>
 
@@ -12,13 +12,16 @@ export default {
 }
 </script>
 
-<style scoped lang='scss'>+                                                       
-.root {
+<style scoped lang='scss'>                                                       
+.tool {
+  width: 100%;
 
-  .centerBox {
-    background-color: #fff;
-    height: 95vh;
+  .centerBox { 
+    width: 70%;
+    margin: 0 auto;
     margin-top: 20px;
+    background-color: #fff;
+    min-height: 90vh;
   }
 }
 </style>

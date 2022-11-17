@@ -20,6 +20,9 @@
 - NProgress（微进度条）
 - iconfont(阿里矢量图标库)
 - mavon-editor（markdown编辑器）
+- vue-markdown（markdown渲染器）
+- github-markdown-css（markdown样式依赖）
+- highlight.js（代码高亮依赖，提供vue自定义命令的代码高亮依赖）
 
 工具：
 

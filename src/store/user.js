@@ -10,15 +10,19 @@ export default {
         // 更新token表示是否登录
         UpdateToken(state, payload) {
             state.token = payload
+            sessionStorage.setItem('token', payload)
         },
         // 更新用户信息
         UpdateUserInfo(state, payload) {
             state.userInfo = payload
+            sessionStorage.setItem('userInfo', JSON.stringify(payload))
         },
         // 退出登录
         SignOut(state) {
             state.userInfo = {}
             state.token = ''
+            sessionStorage.removeItem('token')
+            sessionStorage.removeItem('userInfo')
         }
     },
     actions: {

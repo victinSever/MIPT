@@ -10,6 +10,8 @@ Vue.use(Router)
 
 // 二级路由
 import creator from './creator'
+import tool from './tool'
+import user from './user'
 
 // 一级路由
 const routes = [
@@ -22,6 +24,8 @@ const routes = [
         path: '/tool',
         meta: { title: 'CLF - 工具箱'},
         component: () => import('@/views/Tool'),
+        redirect: '/tool/entity',
+        children: tool
     },
     {
         path: '/arguments',
@@ -52,6 +56,7 @@ const routes = [
         path: '/creator',
         meta: { title: 'CLF - 创作者中心'},
         component: () => import('@/views/Creator'),
+        redirect: '/creator/content',
         children: creator
     },
     {
@@ -64,6 +69,13 @@ const routes = [
         name: 'post',
         meta: { title: 'CLF'},
         component: () => import('@/views/Post'),
+    },
+    {
+        path: '/user/:id',
+        name: 'user',
+        meta: { title: 'CLF'},
+        component: () => import('@/views/User'),
+        children: user
     },
 ]
 

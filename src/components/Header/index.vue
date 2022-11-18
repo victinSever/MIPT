@@ -3,6 +3,7 @@
     <!-- 头部 -->
     <el-row
       class="header"
+      v-if="isHidden"
     >
       <el-row class="header-top">
         <el-col :span="18" :offset="3" class="header-top-in">
@@ -10,10 +11,10 @@
             <div class="header-logo"><span>CLF</span></div>
             <ul class="header-menu">
               <li
-                v-for="item in menus"
+                v-for="(item, index) in menus"
                 :key="item.label"
-                :class="'menu-item' + (item.select ? ' active' : '')"
-                @click="handleSelect(item)"
+                :class="'menu-item' + (item.id === activeIndex ? ' active' : '')"
+                @click="handleSelect(index)"
               >
                 <span>{{ item.label }}</span>
               </li>
@@ -124,43 +125,37 @@ import BaseInfo from "@/components/user/user-baseInfo.vue";
 export default {
   name: "headerCom",
   components: { Login, BaseInfo },
-  // props: ["isSticky"],
   data() {
     let menus = [
       {
         label: "首页",
-        select: true,
         url: "/",
-        id: 1,
+        id: 0,
       },
       {
         label: "工具箱",
-        select: false,
         url: "/tool",
-        id: 2,
+        id: 1,
       },
       {
         label: "案情辩论",
-        select: false,
         url: "/arguments",
-        id: 3,
+        id: 2,
       },
       {
         label: "课程学习",
-        select: false,
         url: "/courseLearn",
-        id: 4,
+        id: 3,
       },
       {
         label: "周边商城",
-        select: false,
         url: "/aroundShop",
-        id: 5,
+        id: 4,
       },
     ];
     return {
       menus,
-      activeIndex: "1",
+      activeIndex: 1,
       url: "https://tva3.sinaimg.cn/large/008cs7isly8h7u5on9iu5j30u00u0q5i.jpg",
       messageNum: 1,
       keyword: "",
@@ -174,6 +169,26 @@ export default {
     isLogin() {
       return this.$store.state.user.token !== "";
     },
+    // 是否隐藏头部
+    isHidden() {
+      return !this.$route.meta.hidden
+    },
+    defaultPathIndex() {
+      
+      console.log(index);
+      return index
+    }
+  },
+  // 默认的菜单高亮
+  updated() {
+    const path = this.$route.path
+      let activeIndex = 0
+      const menu = this.menus.find(item => {
+        return path === item.url
+      })
+      if(menu) {
+        this.activeIndex = menu.id
+      }
   },
   methods: {
     // 搜索事件- 
@@ -181,6 +196,8 @@ export default {
       const keyword = this.keyword.trim()
       const { query } = this.$route
       if(query.query === keyword) return //节流
+
+      if(!keyword) return
 
       this.$router.push({
         path: '/search',
@@ -212,13 +229,11 @@ export default {
     },
 
     // 切换菜单
-    handleSelect: function (target) {
-      if (this.$route.path !== target.url) {
-        this.$router.push(target.url);
-        this.menus = this.menus.map((item) => {
-          item.select = target.label === item.label ? true : false;
-          return item;
-        });
+    handleSelect: function (id) {
+      const path = this.$route.path
+      if (this.activeIndex !== id || path !== '/') {
+        this.$router.push(this.menus[id].url);
+        this.activeIndex = id
       }
     },
 
@@ -400,7 +415,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 1350px) {
+@media screen and (max-width: 1200px) {
   .header .header-top-left {
     .header-logo {
       font-size: 30px;

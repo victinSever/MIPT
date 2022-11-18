@@ -1,27 +1,182 @@
 <template>
   <div class="tool">
-     <div class="centerBox">
-      211231
-     </div>
+    <div class="centerBox">
+      <!-- 头部 -->
+      <div class="header">
+        <div class="header-left">
+          <span class="header-title" v-text="'CLF工具箱'" @click="$router.push('/')"></span>
+          <span
+            class="header-introduce"
+            v-text="'基于模型学习的机器智能抽取，以精准而优雅'"
+          ></span>
+        </div>
+        <div class="header-right">
+          <div class="user" v-if="isLogin">
+            <div class="userImage">
+              <el-image :src="userImage"></el-image>
+            </div>
+            <span class="username" v-text="username"></span>
+          </div>
+          <el-link
+            v-text="isLogin ? '退出' : '登录'"
+            :type="isLogin ? 'danger' : 'warning'"
+            @click="handleLoginOrLoginOut"
+          ></el-link>
+          <el-link v-text="'返回主页'" @click="$router.push('/')"></el-link>
+        </div>
+      </div>
+
+      <!-- 按钮区 -->
+      <div class="content-menu">
+        <el-button
+          :class="'btn-item' + (activeTag === item.id ? ' active' : '')"
+          size="medium"
+          v-text="item.label"
+          v-for="item in fucTags"
+          :key="item.id"
+          round
+          @click="handleChange(item.id)"
+        ></el-button>
+      </div>
+
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-    name: 'toolPage'
-}
+  name: "toolPage",
+  data() {
+    const fucTags = [
+      { label: "实体提取", id: 0 },
+      { label: "信息抽取", id: 1 },
+      // { label: "文书匹配", id: 2 },
+    ];
+
+    return {
+      fucTags,
+      activeTag: 0,
+      userImage:
+        "https://tva3.sinaimg.cn/large/008cs7isly8h7u5on9iu5j30u00u0q5i.jpg",
+      username: "就以废旧",
+      isLogin: false,
+    };
+  },
+
+
+  methods: {
+    // 登录或者退出登录
+    handleLoginOrLoginOut() {
+      
+    },
+
+    // 切换工具菜单
+    handleChange(id) {
+      this.activeTag = id;
+      let targetName = ''
+      switch(id) {
+        case 0: targetName = 'entity'; break;
+        case 1: targetName = 'info'; break;
+      }
+      if(this.$route.name !== targetName)
+        this.$router.push({ name: targetName })
+    },
+  },
+};
 </script>
 
-<style scoped lang='scss'>                                                       
+<style scoped lang='scss'>
 .tool {
   width: 100%;
+  // background-color: #33566a;
 
-  .centerBox { 
-    width: 70%;
+  .centerBox {
+    width: 75%;
     margin: 0 auto;
-    margin-top: 20px;
-    background-color: #fff;
-    min-height: 90vh;
+    min-height: 100vh;
+    // background-color: #33566a;
+
+    .header {
+      height: 6rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .header-left {
+        .header-title {
+          font-size: 2rem;
+          font-family: "华文行楷";
+          color: #33566a;
+          cursor: pointer;
+        }
+
+        .header-introduce {
+          margin-left: 3rem;
+          font-size: 0.9rem;
+          color: #33566a;
+        }
+      }
+
+      .header-right {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 10rem;
+
+        .user {
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+
+          .userImage {
+            overflow: hidden;
+            width: 2rem;
+            height: 2rem;
+            margin-right: 0.3rem;
+            border-radius: 1rem;
+          }
+
+          .el-image {
+            width: 100%;
+            height: 100%;
+            transition: 0.4s;
+          }
+
+          .username {
+            color: #33566a;
+          }
+        }
+
+        .user:hover {
+          .el-image {
+            transform: scale(110%);
+          }
+          .username {
+            color: #417a9b;
+          }
+        }
+      }
+    }
+
+    .content-menu {
+      margin-bottom: 1rem;
+
+      .btn-item {
+        background-color: rgb(153, 149, 149);
+        color: #fff;
+        transition: 0.4s;
+      }
+
+      .btn-item:hover {
+        background-color: #3a6e8d;
+      }
+
+      .active {
+        background-color: #33566a;
+        padding: 0.7rem 4rem;
+      }
+    }
   }
 }
 </style>

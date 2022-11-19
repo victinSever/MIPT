@@ -33,14 +33,14 @@ const routes = [
         component: () => import('@/views/Arguments'),
     },
     {
-        path: '/courseLearn',
+        path: '/course',
         meta: { title: 'CLF - 课程学习'},
-        component: () => import('@/views/CourseLearn'),
+        component: () => import('@/views/Course'),
     },
     {
-        path: '/aroundShop',
+        path: '/shop',
         meta: { title: 'CLF - 周边商城'},
-        component: () => import('@/views/AroundShop'),
+        component: () => import('@/views/Shop'),
     },
     {
         path: '/userAgreement',

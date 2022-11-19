@@ -144,12 +144,12 @@ export default {
       },
       {
         label: "课程学习",
-        url: "/courseLearn",
+        url: "/course",
         id: 3,
       },
       {
         label: "周边商城",
-        url: "/aroundShop",
+        url: "/shop",
         id: 4,
       },
     ];

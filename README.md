@@ -14,6 +14,7 @@
 - ElementUI（组件库）
 - Sass（CSS语法扩展）
 - Axios（ajax请求封装库）
+- Echarts（图表）
 
 优化技术：
 

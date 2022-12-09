@@ -9,10 +9,16 @@
       <p class="user">
         <el-image class="userImage" :src="data.userInfo.userImage"></el-image>
         <span class="username" v-text="data.userInfo.username"></span>
-        <el-link class="userLevel" v-text="data.userInfo.userLevel"></el-link>
+        <el-link class="userLevel" v-text="'Level' + data.userInfo.userLevel" :underline="false"></el-link>
       </p>
-      <p class="price">
-        <span class="salePrice" v-text="data.salePrice"></span>
+      <p class="info">
+        <span v-if="data.salePrice !== 0" class="price">
+          <span class="salePirce-unit">￥</span>
+          <span class="salePrice" v-text="data.salePrice"></span>
+        </span>
+        <span class="update" v-text="data.isFinish ? '已完结' : '已更新' + data.vedioCount + '小节'"></span>
+        ·
+        <span class="salePerson" v-text="data.salePersonCount + '人已购买'"></span>
       </p>
     </div>
   </div>
@@ -27,16 +33,13 @@ export default {
       default: {}
     }
   },
-  mounted() {
-    console.log(this.data);
-  }
 }
 </script>
 
 <style scoped lang='scss'>
 .courseItem {
   display: flex;
-  height: 12rem;
+  height: 10rem;
   margin: 1rem 0;
   cursor: pointer;
 
@@ -54,7 +57,8 @@ export default {
     flex-direction: column;
 
     .title {
-      font-size: 1.4rem;
+      font-size: 1.3rem;
+      font-weight: normal;
       margin-bottom: 0.5rem;
     }
 
@@ -78,12 +82,32 @@ export default {
       .username{
         margin-right: 0.5rem;
       }
+
+      .userLevel{
+        font-size: 1rem;
+        font-family: '华文行楷';
+        color: orange;
+      }
     }
 
-    .price{
+    .info{
+      color: #777;
+      .price{
+      display: inline-block;
+      margin-right: 1rem;
+
+      .salePirce-unit {
+        color: #f64242;
+      }
       .salePrice {
         color: #f64242;
         font-size: 1.3rem;
+      }
+    }
+
+      .update, .salePerson {        
+        font-size: 0.8rem;
+        margin-right: 0.5rem;
       }
     }
   }

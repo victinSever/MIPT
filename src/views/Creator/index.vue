@@ -7,14 +7,25 @@
           <div class="session userInfo" ref="haha">
             <el-image :src="userInfo.userImage"></el-image>
             <div class="userInfo-text">
-              <p class="userInfo-username">{{ userInfo.username }} <i @click="copyToCutting(userInfo.username)" class="iconfont icon-copy"></i></p>
+              <p class="userInfo-username">
+                {{ userInfo.username }}
+                <i
+                  @click="copyToCutting(userInfo.username)"
+                  class="iconfont icon-copy"
+                ></i>
+              </p>
               <p class="userInfo-role">{{ userInfo.role }}</p>
             </div>
           </div>
 
           <!-- 写文章按钮 -->
           <div class="session">
-            <el-button type="primary" class="btn-create" @click="gotoWritePassage">创作</el-button>
+            <el-button
+              type="primary"
+              class="btn-create"
+              @click="gotoWritePassage"
+              >创作</el-button
+            >
           </div>
 
           <div class="session">
@@ -26,29 +37,33 @@
               @close="handleClose"
               router
             >
+              <el-menu-item index="/creator/home">
+                <i class="el-icon-s-flag"></i>
+                <span slot="title">首页</span>
+              </el-menu-item>
               <el-submenu index="">
                 <template slot="title">
                   <i class="el-icon-location"></i>
                   <span>内容管理</span>
                 </template>
-                <el-menu-item index="content">文章管理</el-menu-item>
+                <el-menu-item index="/creator/content">文章管理</el-menu-item>
               </el-submenu>
               <el-submenu index="">
                 <template slot="title">
                   <i class="el-icon-menu"></i>
                   <span>数据中心</span>
                 </template>
-                <el-menu-item index="dataCenter">内容数据</el-menu-item>
+                <el-menu-item index="/creator/dataCenter">内容数据</el-menu-item>
               </el-submenu>
-              <el-menu-item index="groupUp">
+              <el-menu-item index="/creator/groupUp">
                 <i class="el-icon-document"></i>
                 <span slot="title">创作成长</span>
               </el-menu-item>
-              <el-menu-item index="activityCenter">
+              <el-menu-item index="/creator/activityCenter">
                 <i class="el-icon-s-flag"></i>
                 <span slot="title">活动中心</span>
               </el-menu-item>
-              <el-menu-item index="helpCenter">
+              <el-menu-item index="/creator/helpCenter">
                 <i class="el-icon-setting"></i>
                 <span slot="title">帮助中心</span>
               </el-menu-item>
@@ -66,17 +81,21 @@
 </template>
 
 <script>
+import {getUUID} from '@/utils/index';
 export default {
   name: "createCenter",
   data() {
     const menu = [
+      {
+        text: '首页',
+        icon: 'el-icon-location',
+      },
       {
         text: '内容管理',
         icon: 'el-icon-location',
         children: [
           {
             text: '文章管理',
-            index: 'passageManager'
           }
         ]
       },
@@ -86,7 +105,6 @@ export default {
         children: [
           {
             text: '内容数据',
-            index: 'dataCenter'
           }
         ]
       },
@@ -126,8 +144,12 @@ export default {
 
     // 前往写作页面
     gotoWritePassage: function() {
-      if(this.$route.path !== '/writePassage')
-      this.$router.push('/editor')
+      if(this.$route.path === '/editor') return
+      let routeData = this.$router.resolve({
+        name: "editor",
+        params: {id: getUUID()}
+      });
+      window.open(routeData.href, '_blank');
     },
 
     handleSelect(key, keyPath) {
@@ -181,7 +203,7 @@ export default {
           display: flex;
           flex-direction: column;
           justify-content: space-around;
-          i{
+          i {
             cursor: pointer;
           }
 
@@ -204,6 +226,10 @@ export default {
     min-width: 500px;
     height: 120vh;
   }
+}
+
+.inbox-right .card {
+  padding: 2rem;
 }
 
 @media screen and (max-width: 1350px) {

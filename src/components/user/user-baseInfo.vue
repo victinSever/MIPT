@@ -127,10 +127,7 @@ export default {
       if (this.$route.path !== item.path) {
         if (item.urlname) {
           this.$router.push({
-            name: item.urlname,
-            params: {
-              id: '1'
-            },
+            name: item.urlname
           });
         }
       }

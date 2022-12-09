@@ -36,7 +36,15 @@ Vue.directive('highlight', function (el) {
 import * as echarts from 'echarts';
 Vue.prototype.$echarts = echarts
 
+// 引入npgrogress
+import nprogress from 'nprogress'
+import 'nprogress/nprogress.css'
+Vue.prototype.$nprogress = nprogress
+
 Vue.config.productionTip = false
+
+// 绑定一个bus，实现全局总线通信
+Vue.prototype.$bus = new Vue()
 
 new Vue({
   store,

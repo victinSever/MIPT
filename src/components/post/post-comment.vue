@@ -6,9 +6,12 @@
       </div>
       <div class="input-box">
         <div class="left-box">
-          <el-image :src="imageUrl"></el-image>
+          <el-image :src="user.userImage" v-if="user.userImage"></el-image>
+          <div class="empty" v-else>
+            <span class="iconfont icon-person"></span>
+          </div>
         </div>
-        <div class="right-box">
+        <div class="right-box" v-if="user">
           <el-input
             type="textarea"
             :rows="3"
@@ -25,6 +28,9 @@
               >发表评论</el-button
             >
           </div>
+        </div>
+        <div class="right-box-empty" @click="handleLogin" v-else>
+          <p><el-link type="primary">登录</el-link> 后发表自己的看法！</p>
         </div>
       </div>
     </div>
@@ -126,6 +132,17 @@ export default {
       comments: comments,
     };
   },
+  computed: {
+    user() {
+      return this.$store.state.user.token ? this.$store.state.user.userInfo : false
+    }
+  },
+  methods: {
+    handleLogin() {
+      console.log(1);
+      this.$bus.$emit('handleLogin', true)
+    }
+  }
 };
 </script>
 
@@ -148,11 +165,24 @@ export default {
       .left-box {
         width: 4rem;
 
-        .el-image {
+        .el-image, .empty{
           height: 3rem;
           width: 3rem;
           border-radius: 1.5rem;
+          
         }
+
+         .empty{
+          align-items: center;
+          display: flex;
+          justify-content: center;
+          background-color: #eff0f3;
+
+          span{
+            font-size: 2.8rem;
+            color: #c7c8ca;
+          }
+         }
       }
 
       .right-box {
@@ -185,6 +215,17 @@ export default {
             border: #ccc;
           }
         }
+      }
+
+      .right-box-empty{
+        cursor: pointer;
+        background-color: #f2f3f5;
+        width: 90%;
+        height: 5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        align-items: center;
       }
     }
   }

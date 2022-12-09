@@ -1,8 +1,16 @@
+import content from './content';
 export default [
+    {
+        path: 'home',
+        meta: { title: 'CLF - 创作者中心 - 首页'},
+        component: () => import('@/views/Creator/creator-home'),
+    },
     {
         path: 'content',
         meta: { title: 'CLF - 文章内容'},
         component: () => import('@/views/Creator/creator-content'),
+        redirect: 'content/essays',
+        children: content
     },
     {
         path: 'dataCenter',

@@ -8,13 +8,13 @@
 
     <div class="item-main">
       <h4 class="title" v-html="highlight(item.title)"></h4>
-      <p class="discription" v-html="highlight(item.discription)"></p>
+      <p class="discription" v-html="highlight(item.content)"></p>
     </div>
     <div class="item-bottom">
-      <span class="iconfont icon-view"> {{ " " + item.record.views }}</span>
-      <span class="iconfont icon-31dianzan"> {{ " " + item.record.zan }}</span>
+      <span class="iconfont icon-view"> {{ " " + item.view }}</span>
+      <span class="iconfont icon-31dianzan"> {{ " " + item.dianzan }}</span>
       <span class="iconfont icon-pinglun">
-        {{ " " + item.record.comments }}</span
+        {{ " " + item.comment }}</span
       >
     </div>
   </div>
@@ -25,7 +25,22 @@ import { getNumberOfDays } from '@/utils/index';
 export default {
   name: "passageItem",
   props: {
-    item: Object
+    item: {
+      type: Object,
+      default: {
+        id: "",
+        username: "xxx",
+        userImage: '',
+        publishImage: '',
+        publishTime: "",    
+        title: "",
+        content:"",
+        view: "",
+        dianzan: "",
+        comment: "",
+        isview: false,
+      }
+    }
   },
   computed: {
     passTime() {

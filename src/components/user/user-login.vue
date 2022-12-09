@@ -314,9 +314,15 @@ export default {
       // }
       // else this.$message.warning(res.msg);  
       this.$message.success("登录成功！"); 
-        this.UpdateToken('21312');
-        this.$emit("closeDialog");
-        this.resetForm('passForm')
+      this.UpdateToken('123');
+      this.UpdateUserInfo({
+          userImage: 'https://tva3.sinaimg.cn/large/008cs7isly8h7u5on9iu5j30u00u0q5i.jpg',
+          username: '狂徒张三',
+          userLevel: 7,
+          phone: '15730363265',
+        });
+      this.$emit("closeDialog");
+      this.resetForm('passForm')
       
     },
     submitForm() {

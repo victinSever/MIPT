@@ -19,8 +19,8 @@
               </div>
               <div class="bottom">
                 <span class="publishTime" v-text="data.publishTime"></span>
-                <span v-text="' · 阅读'"></span>
-                <span class="views" v-text="data.record.views"></span>
+                <span v-if="data.view" v-text="' · 阅读'"></span>
+                <span class="views" v-if="data.view" v-text="data.view"></span>
               </div>
             </div>
           </div>
@@ -35,7 +35,7 @@
 
           <!-- 文章内容：md渲染器和样式融入 -->
           <div class="article-content markdown-body">
-            <VueMarkdown :source="data.discription" v-highlight></VueMarkdown>
+            <VueMarkdown :source="data.content" v-highlight></VueMarkdown>
           </div>
 
           <!-- 文章分类 -->
@@ -81,9 +81,12 @@ export default {
   components: { PostBtns, PostComment, VueMarkdown },
   computed: {
     data() {
-      return this.$route.params || null;
+      return this.$route.params.id ? this.$route.params : {};
     },
   },
+  mounted() {
+    console.log(this.$route.params);
+  }
 };
 </script>
 

@@ -1,12 +1,20 @@
-V.<template>
+<template>
   <dir>
-    Arguments
+    Arguments1213
+    <p>sad</p>
+    <p>sad</p>
+    <p>sad</p>
+    <p>sad</p>
+    <p>sad</p>
   </dir>
 </template>
 
 <script>
 export default {
-    name: 'ArgumentsPage'
+    name: 'ArgumentsPage',
+    mounted() {
+      console.log(11);
+    }
 }
 </script>
 

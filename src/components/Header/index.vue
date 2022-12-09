@@ -164,6 +164,17 @@ export default {
       isInputFocus: false,
     };
   },
+  created() {
+    // 挂载一个bus，触发登录组件的出现
+    let that = this
+    this.$bus.$on('handleLogin',function(type = true) {
+      console.log(that.dialogVisible);
+      that.dialogVisible = type;
+    }) 
+  },
+    beforeDestroy() {
+   this.$bus.$off('handleLogin');
+  },
   computed: {
     //是否登录
     isLogin() {
@@ -171,7 +182,7 @@ export default {
     },
     // 是否隐藏头部
     isHidden() {
-      return !this.$route.meta.hidden
+      return !this.$route.meta.hiddenHeader
     },
     defaultPathIndex() {
       
@@ -182,7 +193,6 @@ export default {
   // 默认的菜单高亮
   updated() {
     const path = this.$route.path
-      let activeIndex = 0
       const menu = this.menus.find(item => {
         return path === item.url
       })
@@ -219,17 +229,17 @@ export default {
     },
 
     gotoCreator: function() {
-        if (this.$route.path !== '/creator')
-            this.$router.push('/creator/content')
+        if(!this.isLogin) {
+          this.handleLogin()
+          return
+        }
+        if (this.$route.path.includes('/creator')) return
+        this.$router.push('/creator/home')
     },
-
-    //改变登录方式时，调整dialog的高度
-    changeLoginWay: function (type) {
-      this.loginWay = type;
-    },
+    
 
     // 切换菜单
-    handleSelect: function (id) {
+    handleSelect(id) {
       const path = this.$route.path
       if (this.activeIndex !== id || path !== '/') {
         this.$router.push(this.menus[id].url);
@@ -238,15 +248,20 @@ export default {
     },
 
     // 点击登录按钮
-    handleLogin: function () {
+    handleLogin() {
       this.dialogVisible = true;
     },
 
-    //关闭菜单
-    closeDialog: function () {
+    closeDialog() {
       this.dialogVisible = false;
     },
+
+    //改变登录方式时，调整dialog的高度
+    changeLoginWay(type) {
+      this.loginWay = type;
+    },
   },
+
 };
 </script>
 
@@ -255,7 +270,7 @@ export default {
   width: 100%;
   height: 60px; 
   position: sticky;
-  top: 20px;
+  top: 0;
   z-index: 999;
   background-color: #fff;
 

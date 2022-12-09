@@ -33,8 +33,11 @@
             </div>
           </div>
           <!-- 内容区 -->
-          <div class="content-list" v-if="courseList.length !== 0">
+          <div class="content-list" v-if="courseList.length !== 0 && !isLoading">
             <CourseItem v-for="item in courseList" :key="item.id" :data="item"/>
+          </div>
+          <div class="content-loading" v-else-if="isLoading">
+            <el-skeleton />
           </div>
           <div class="content-empty" v-else>
             <el-empty :image-size="150" description="暂时没有课程上架哦！"></el-empty>
@@ -42,7 +45,12 @@
         </div>
       </div>
       <!-- 右侧 -->
-      <div class="sides card">213</div>
+      <div class="sides">
+        <div class="courseCenter-btn card" @click="handleGotoCourseCenter">
+          <span class="iconfont icon-coursera"></span>
+          <span class="text">课程中心</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -67,7 +75,23 @@ export default {
       { label: '最热', id: 2 },
       { label: '价格', id: 3 },
     ]
-    const courseList = [
+    
+    return {
+      courseCategoryTags,
+      activeCategoryTag: 0,
+      orderTags,
+      activeOrderTag: 0,
+      isLoading: false,
+      courseList: []
+    }
+  },
+  mounted() {
+    this.getData()
+  },
+  methods: {
+    // 获取数据
+    async getData() {
+      const courseList = [
       {
         id: 0,
         courseImage: 'https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/40499743ab5642eba9c777bb809aaa73~tplv-k3u1fbpfcp-no-mark:420:420:300:420.awebp?',
@@ -88,38 +112,44 @@ export default {
       },
       {
         id: 1,
-        courseImage: 'https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/40499743ab5642eba9c777bb809aaa73~tplv-k3u1fbpfcp-no-mark:420:420:300:420.awebp?',
-        courseTitle: '法律文书校验一站通关',
-        courseDiscription: '文书生成，如何文书生成，手把手教你怎么打造一个文书系统',
+        courseImage: 'https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/25d4cb07852f477291299ebbaa2ca092~tplv-k3u1fbpfcp-no-mark:420:420:300:420.awebp?',
+        courseTitle: 'CEF 桌面软件开发实战',
+        courseDiscription: 'CEF基于XXXXX',
         userInfo: {
           userImage: 'https://tva3.sinaimg.cn/large/008cs7isly8h7u5on9iu5j30u00u0q5i.jpg',
           username: '狂徒张三',
           userLevel: 7,
         },
-        salePrice: 79, //售卖价
+        salePrice: 24, //售卖价
         isDiscont: 1, //是否打折,1是，0不是
         discont: 0.7, //若打折，折扣
         salePersonCount: 423, //购买人数 ,
         vedioCount: 23, //章节数
-        isFinish: false, //是否完结
+        isFinish: true, //是否完结
         isBook: false //是否是book类型
       }
     ]
-    return {
-      courseCategoryTags,
-      activeCategoryTag: 0,
-      orderTags,
-      activeOrderTag: 0,
-      courseList
-    }
-  },
-  methods: {
+      this.isLoading = true
+      this.courseList = []
+      setTimeout(() => {
+        this.courseList = courseList
+        this.isLoading = false
+      }, 500)
+    },
+
+    handleGotoCourseCenter() {
+      this.$router.push('/my-course')
+    },
+
+    // 改变active的标签
     handleChangeCategoryTags(id) {
       this.activeCategoryTag = id
     },
     handleChangeOrderTags(id) {
       this.activeOrderTag = id
-    }
+      this.getData()
+    },
+
   }
 };
 </script>
@@ -188,6 +218,29 @@ export default {
     .sides {
       width: 23%;
     }
+  }
+
+  .courseCenter-btn {
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    
+
+    .iconfont{
+      font-size: 2rem;
+      margin-right: 0.5rem;
+      color: #409eff;
+    }
+
+    .text {
+      font-size: 1.2rem;
+    }
+  }
+
+  .courseCenter-btn:hover {
+    background-color: #fcfcfc;
   }
 
   .card {

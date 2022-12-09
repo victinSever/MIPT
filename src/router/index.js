@@ -48,8 +48,9 @@ const routes = [
         component: () => import('@/views/UserAgreement'),
     },
     {
-        path: '/editor',
-        meta: { title: 'CLF - 创作文章'},
+        path: '/editor/:id',
+        name: 'editor',
+        meta: { title: 'CLF - 创作文章', hiddenHeader: true},
         component: () => import('@/views/Editor'),
     },
     {
@@ -71,11 +72,17 @@ const routes = [
         component: () => import('@/views/Post'),
     },
     {
-        path: '/user/:id',
+        path: '/user',
         name: 'user',
-        meta: { title: 'CLF'},
+        meta: { title: 'CLF - 个人中心'},
         component: () => import('@/views/User'),
         children: user
+    },
+    {
+        path: '/my-course',
+        name: 'my-course',
+        meta: { title: 'CLF - 课程中心'},
+        component: () => import('@/views/Course/my-course'),
     },
 ]
 
@@ -93,7 +100,8 @@ const router = new Router({
 
 // 拦截器
 router.beforeEach((to, from, next) => { 
-    document.title = to.meta.title; //设置标题
+    if(to.meta.title)
+        document.title = to.meta.title; //设置标题
     
     if(to.name === 'post') {
         if(to.params.title) document.title += ' - ' + to.params.title

@@ -1,2 +1,0 @@
-"use strict";(self["webpackChunkmipt"]=self["webpackChunkmipt"]||[]).push([[256],{63256:function(n,e,s){s.r(e),s.d(e,{default:function(){return d}});var u=function(){var n=this,e=n._self._c;return e("dir",[n._v(" Arguments1213 "),e("p",[n._v("sad")]),e("p",[n._v("sad")]),e("p",[n._v("sad")]),e("p",[n._v("sad")]),e("p",[n._v("sad")])])},t=[],a={name:"ArgumentsPage",mounted(){console.log(11)}},l=a,r=s(1001),p=(0,r.Z)(l,u,t,!1,null,null,null),d=p.exports}}]);
-//# sourceMappingURL=256.74ce3e0c.js.map

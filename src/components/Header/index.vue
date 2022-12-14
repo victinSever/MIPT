@@ -178,17 +178,15 @@ export default {
   computed: {
     //是否登录
     isLogin() {
-      return this.$store.state.user.token !== "";
+      return JSON.parse(sessionStorage.getItem("token")) || false;
+    },
+    user() {
+      return JSON.parse(sessionStorage.getItem("userInfo")) || {};
     },
     // 是否隐藏头部
     isHidden() {
-      return !this.$route.meta.hiddenHeader
+      return !this.$route.meta.hiddenHeader;
     },
-    defaultPathIndex() {
-      
-      console.log(index);
-      return index
-    }
   },
   // 默认的菜单高亮
   updated() {

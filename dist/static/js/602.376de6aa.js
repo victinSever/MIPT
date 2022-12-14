@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkmipt"]=self["webpackChunkmipt"]||[]).push([[602],{27602:function(n,u,t){t.r(u),t.d(u,{default:function(){return s}});var e=function(){var n=this,u=n._self._c;return u("div",[n._v(" AroundShop ")])},r=[],l={name:"AroundShop"},i=l,o=t(1001),p=(0,o.Z)(i,e,r,!1,null,null,null),s=p.exports}}]);
+//# sourceMappingURL=602.376de6aa.js.map

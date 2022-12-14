@@ -318,8 +318,10 @@ export default {
       this.UpdateUserInfo({
           userImage: 'https://tva3.sinaimg.cn/large/008cs7isly8h7u5on9iu5j30u00u0q5i.jpg',
           username: '狂徒张三',
-          userLevel: 7,
+          level: 7,
+          role: '法律从业者',
           phone: '15730363265',
+          email: 'victinzhong@163.com'
         });
       this.$emit("closeDialog");
       this.resetForm('passForm')

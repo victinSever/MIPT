@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkmipt"]=self["webpackChunkmipt"]||[]).push([[32],{32:function(t,n,u){u.r(n),u.d(n,{default:function(){return f}});var e=function(){var t=this,n=t._self._c;return n("div",[t._v("activity")])},i=[],l={},r=l,c=u(1001),s=(0,c.Z)(r,e,i,!1,null,null,null),f=s.exports}}]);
+//# sourceMappingURL=32.12a82cd6.js.map

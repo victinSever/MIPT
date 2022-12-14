@@ -12,6 +12,7 @@ Vue.use(Router)
 import creator from './creator'
 import tool from './tool'
 import user from './user'
+import settings from './settings'
 
 // 一级路由
 const routes = [
@@ -22,47 +23,47 @@ const routes = [
     },
     {
         path: '/tool',
-        meta: { title: 'CLF - 工具箱'},
+        meta: { title: '工具箱'},
         component: () => import('@/views/Tool'),
         redirect: '/tool/entity',
         children: tool
     },
     {
         path: '/arguments',
-        meta: { title: 'CLF - 案情辩论'},
+        meta: { title: '案情辩论'},
         component: () => import('@/views/Arguments'),
     },
     {
         path: '/course',
-        meta: { title: 'CLF - 课程学习'},
+        meta: { title: '课程学习'},
         component: () => import('@/views/Course'),
     },
     {
         path: '/shop',
-        meta: { title: 'CLF - 周边商城'},
+        meta: { title: '周边商城'},
         component: () => import('@/views/Shop'),
     },
     {
         path: '/userAgreement',
-        meta: { title: 'CLF - 用户协议'},
+        meta: { title: '用户协议'},
         component: () => import('@/views/UserAgreement'),
     },
     {
         path: '/editor/:id',
         name: 'editor',
-        meta: { title: 'CLF - 创作文章', hiddenHeader: true},
+        meta: { title: '创作文章', hiddenHeader: true},
         component: () => import('@/views/Editor'),
     },
     {
         path: '/creator',
-        meta: { title: 'CLF - 创作者中心'},
+        meta: { title: '创作者中心'},
         component: () => import('@/views/Creator'),
         redirect: '/creator/content',
         children: creator
     },
     {
         path: '/search',
-        meta: { title: 'CLF - 搜索'},
+        meta: { title: '搜索'},
         component: () => import('@/views/Search'),
     },
     {
@@ -74,16 +75,26 @@ const routes = [
     {
         path: '/user',
         name: 'user',
-        meta: { title: 'CLF - 个人中心'},
+        meta: { title: '个人中心'},
         component: () => import('@/views/User'),
+        redirect: '/user/active',
         children: user
     },
     {
         path: '/my-course',
         name: 'my-course',
-        meta: { title: 'CLF - 课程中心'},
+        meta: { title: '课程中心'},
         component: () => import('@/views/Course/my-course'),
     },
+    {
+        path: '/setting',
+        name: 'setting',
+        meta: { title: '个人设置' },
+        component: () => import('@/views/User/setting'),
+        redirect: 'setting/profile',
+        children: settings
+
+    } ,
 ]
 
 const router = new Router({
@@ -102,7 +113,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => { 
     if(to.meta.title)
         document.title = to.meta.title; //设置标题
-    
+       
     if(to.name === 'post') {
         if(to.params.title) document.title += ' - ' + to.params.title
     }

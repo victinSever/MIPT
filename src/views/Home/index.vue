@@ -49,67 +49,6 @@
 </template>
 
 <script>
-import PassageItem from "@/components/passage/passage-item.vue";
-import PassageSignIn from "@/components/passage/passage-signIn.vue";
-import PassageAdver from "@/components/passage/passage-adver.vue";
-export default {
-  name: "passagePage",
-  components: { PassageItem, PassageSignIn, PassageAdver },
-  data() {
-    const tags = [
-      { label: "全部", value: 1 },
-      { label: "时事热议", value: 2 },
-      { label: "经典案列", value: 3 },
-      { label: "争议辩论", value: 4 },
-    ];
-    const order = [
-      { label: "推荐", value: 1 },
-      { label: "最新", value: 2 },
-      { label: "热榜", value: 3 },
-    ];
-    const advers = [
-      {
-        imageUrl:
-          "https://tva4.sinaimg.cn/large/008cs7isly8h7u3052ugij30i20bj0ti.jpg",
-        type: 1,
-        isView: true,
-        link: "http://www.baidu.com",
-        id: "1",
-      },
-      {
-        imageUrl:
-          "https://himg2.huanqiucdn.cn/attachment2010/2018/1220/20181220083449260.jpg",
-        type: 2,
-        isView: true,
-        link: "http://www.baidu.com",
-        id: "2",
-      },
-      {
-        imageUrl: "https://filekp.ccwb.cn/api/file/201912131733397R4WLUw.jpg",
-        type: 3,
-        isView: true,
-        link: "http://www.baidu.com",
-        id: "3",
-      },
-    ];
-
-    return {
-      tags,
-      order,
-      passage: [],
-      advers,
-      tagActive: 1,
-      orderActive: 1,
-      loadTimes: 0,
-      isLoading: false,
-    };
-  },
-  mounted() {
-    const listenr = window.addEventListener("scroll", this.handleScroll, true);
-    this.getData();
-  },
-  methods: {
-    async getData() {
       const passage = [
         {
           id: "12312",
@@ -317,6 +256,68 @@ https://victinsever.github.io/MIPT/dist/index.html
           isview: false,
         },
       ];
+import PassageItem from "@/components/passage/passage-item.vue";
+import PassageSignIn from "@/components/passage/passage-signIn.vue";
+import PassageAdver from "@/components/passage/passage-adver.vue";
+export default {
+  name: "passagePage",
+  components: { PassageItem, PassageSignIn, PassageAdver },
+  data() {
+    const tags = [
+      { label: "全部", value: 1 },
+      { label: "时事热议", value: 2 },
+      { label: "经典案列", value: 3 },
+      { label: "争议辩论", value: 4 },
+    ];
+    const order = [
+      { label: "推荐", value: 1 },
+      { label: "最新", value: 2 },
+      { label: "热榜", value: 3 },
+    ];
+    const advers = [
+      {
+        imageUrl:
+          "https://tva4.sinaimg.cn/large/008cs7isly8h7u3052ugij30i20bj0ti.jpg",
+        type: 1,
+        isView: true,
+        link: "http://www.baidu.com",
+        id: "1",
+      },
+      {
+        imageUrl:
+          "https://himg2.huanqiucdn.cn/attachment2010/2018/1220/20181220083449260.jpg",
+        type: 2,
+        isView: true,
+        link: "http://www.baidu.com",
+        id: "2",
+      },
+      {
+        imageUrl: "https://filekp.ccwb.cn/api/file/201912131733397R4WLUw.jpg",
+        type: 3,
+        isView: true,
+        link: "http://www.baidu.com",
+        id: "3",
+      },
+    ];
+
+    return {
+      tags,
+      order,
+      passage: [],
+      advers,
+      tagActive: 1,
+      orderActive: 1,
+      loadTimes: 0,
+      isLoading: false,
+    };
+  },
+  mounted() {
+    const listenr = window.addEventListener("scroll", this.handleScroll, true);
+    this.getData();
+  },
+  methods: {
+    async getData() {
+
       this.isLoading = true;
       this.passage = [];
       setTimeout(() => {

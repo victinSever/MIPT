@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkmipt"]=self["webpackChunkmipt"]||[]).push([[887],{5887:function(e,t,n){n.r(t),n.d(t,{default:function(){return s}});var u=function(){var e=this,t=e._self._c;return t("div",[t("el-empty")],1)},l=[],r={name:"collectPage",data(){return{}},methods:{}},a=r,f=n(1001),c=(0,f.Z)(a,u,l,!1,null,"6adfeff7",null),s=c.exports}}]);
+//# sourceMappingURL=887.5cc23c6a.js.map

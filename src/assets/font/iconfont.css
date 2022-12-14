@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3741051 */
-  src: url('iconfont.woff2?t=1669025658131') format('woff2'),
-       url('iconfont.woff?t=1669025658131') format('woff'),
-       url('iconfont.ttf?t=1669025658131') format('truetype');
+  src: url('iconfont.woff2?t=1670589387281') format('woff2'),
+       url('iconfont.woff?t=1670589387281') format('woff'),
+       url('iconfont.ttf?t=1670589387281') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,86 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-pointer:before {
+  content: "\e934";
+}
+
+.icon-point:before {
+  content: "\e642";
+}
+
+.icon-Gitlab:before {
+  content: "\e87f";
+}
+
+.icon-QQ:before {
+  content: "\e882";
+}
+
+.icon-weibo1:before {
+  content: "\e883";
+}
+
+.icon-wechat-fill:before {
+  content: "\e884";
+}
+
+.icon-github-fill:before {
+  content: "\e885";
+}
+
+.icon-gitee-fill-round:before {
+  content: "\e686";
+}
+
+.icon-csdn:before {
+  content: "\e60c";
+}
+
+.icon-blog:before {
+  content: "\eaf9";
+}
+
+.icon-tag:before {
+  content: "\e65b";
+}
+
+.icon-Category:before {
+  content: "\e60e";
+}
+
+.icon-save-fill:before {
+  content: "\e78b";
+}
+
+.icon-setting:before {
+  content: "\e6f0";
+}
+
+.icon-3501shuju:before {
+  content: "\e665";
+}
+
+.icon-columns:before {
+  content: "\e604";
+}
+
+.icon-activity:before {
+  content: "\e713";
+}
+
+.icon-home:before {
+  content: "\e63d";
+}
+
+.icon-aboutshare:before {
+  content: "\e628";
+}
+
+.icon-search:before {
+  content: "\e61a";
 }
 
 .icon-change:before {

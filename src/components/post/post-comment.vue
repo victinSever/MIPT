@@ -134,8 +134,8 @@ export default {
   },
   computed: {
     user() {
-      return this.$store.state.user.token ? this.$store.state.user.userInfo : false
-    }
+      return this.$store.state.user.token ? this.$store.state.user.userInfo : false;
+    },
   },
   methods: {
     handleLogin() {

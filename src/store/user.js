@@ -3,8 +3,8 @@ import fetch from '@/api/manage/fetch'
 export default {
     namespaced:true,//开启命名空间
     state: {
-        userInfo: {},
-        token: ''
+        userInfo: JSON.parse(sessionStorage.getItem('userInfo')) || {},
+        token: sessionStorage.getItem('token') || ''
     },
     mutations: {
         // 更新token表示是否登录
@@ -90,5 +90,10 @@ export default {
             return await fetch('/api/user/evc/sendCode', 'get', payload)
         },
         
+    },
+    getters: {
+        getToken(a) {
+            console.log(a);
+        }
     }
 }

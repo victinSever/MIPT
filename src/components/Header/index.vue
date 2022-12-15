@@ -1,20 +1,19 @@
 <template>
   <div>
     <!-- 头部 -->
-    <el-row
-      class="header"
-      v-if="isHidden"
-    >
+    <el-row class="header" v-if="isHidden">
       <el-row class="header-top">
         <el-col :span="18" :offset="3" class="header-top-in">
           <div class="header-top-left">
             <div class="header-logo"><span>CLF</span></div>
             <ul class="header-menu">
               <li
-                v-for="(item, index) in menus"
+                v-for="item in menus"
                 :key="item.label"
-                :class="'menu-item' + (item.id === activeIndex ? ' active' : '')"
-                @click="handleSelect(index)"
+                :class="
+                  'menu-item' + (item.id === activeIndex ? ' active' : '')
+                "
+                @click="handleSelect(item)"
               >
                 <span>{{ item.label }}</span>
               </li>
@@ -31,49 +30,60 @@
             </el-dropdown>
           </div>
           <dir class="header-top-right">
-            <transition name="el-fade-in-linear">
-              <el-input
-                :class="'user-input' + (isInputFocus ? ' focus' : '')"
-                v-model="keyword"
-                size="medium"
-                placeholder="检索法律信息"
-                @focus="isInputFocus = true"
-                @blur="isInputFocus = false"
-                @keyup.enter.native="searchHandler"
+            <el-input
+              :placeholder="
+                selectActive == '1' ? '输入案由、关键词、法院、当事人、律师' : '输入关键词'
+              "
+              v-model="keyword"
+              size="medium"
+              class="user-input"
+              @focus="isInputFocus = true"
+              @blur="isInputFocus = false"
+              @keyup.enter.native="HandleSearch"
+            >
+              <el-select
+                v-model="selectActive"
+                slot="prepend"
+                placeholder="请选择"
               >
-                <div
-                  slot="suffix"
-                  class="user-input-suffix el-icon-search"
-                  @click="searchHandler"
-                ></div
-              ></el-input>
-            </transition>
-            <transition name="el-fade-in-linear">
+                <el-option
+                  :label="item.label"
+                  :value="item.value"
+                  v-for="item in selectList"
+                  :key="item.id"
+                ></el-option>
+              </el-select>
               <el-button
-                class="user-create"
-                type="primary"
-                size="medium"
-                icon="el-icon-user-solid"
-                @click="gotoCreator"
-                >创作者中心</el-button
-              >
-            </transition>
+                slot="append"
+                icon="el-icon-search"
+                @click="HandleSearch"
+              ></el-button>
+            </el-input>
+
+            <el-button
+              class="user-create"
+              type="primary"
+              size="medium"
+              icon="el-icon-user-solid"
+              @click="gotoCreator"
+              >创作者中心</el-button
+            >
             <el-button
               class="user-message"
               icon="el-icon-bell"
               circle
-              v-if="isLogin"
+              v-if="user"
             ></el-button>
 
             <el-popover
               placement="bottom-end"
               width="250"
               trigger="click"
-              v-if="isLogin"
+              v-if="user"
             >
               <BaseInfo />
               <div class="user-img" slot="reference">
-                <img :src="url" />
+                <el-image :src="user.userImage" alt="" />
               </div>
             </el-popover>
             <el-button
@@ -120,43 +130,30 @@
 </template>
 
 <script>
+const menus = [
+  { label: "首页", urlname: "home", id: 0 },
+  { label: "工具箱", urlname: "tool", id: 1 },
+  { label: "案例大厅", urlname: "arguments", id: 2 },
+  { label: "课程学习", urlname: "course", id: 3 },
+  { label: "周边商城", urlname: "shop", id: 4 },
+];
+const selectList = [
+  { id: "0", label: "默认检索", value: "0" },
+  { id: "1", label: "法条检索", value: "1" },
+  // { id: "2", label: "文章检索", value: "2" },
+  // { id: "3", label: "案列检索", value: "3" },
+];
 import Login from "@/components/user/user-login.vue";
 import BaseInfo from "@/components/user/user-baseInfo.vue";
 export default {
   name: "headerCom",
   components: { Login, BaseInfo },
   data() {
-    let menus = [
-      {
-        label: "首页",
-        url: "/",
-        id: 0,
-      },
-      {
-        label: "工具箱",
-        url: "/tool",
-        id: 1,
-      },
-      {
-        label: "案情辩论",
-        url: "/arguments",
-        id: 2,
-      },
-      {
-        label: "课程学习",
-        url: "/course",
-        id: 3,
-      },
-      {
-        label: "周边商城",
-        url: "/shop",
-        id: 4,
-      },
-    ];
     return {
+      selectActive: "",
+      selectList,
       menus,
       activeIndex: 1,
-      url: "https://tva3.sinaimg.cn/large/008cs7isly8h7u5on9iu5j30u00u0q5i.jpg",
       messageNum: 1,
       keyword: "",
       dialogVisible: false, //是否显示登录组件
@@ -165,84 +162,62 @@ export default {
     };
   },
   created() {
+    this.selectActive = "0";
     // 挂载一个bus，触发登录组件的出现
-    let that = this
-    this.$bus.$on('handleLogin',function(type = true) {
-      console.log(that.dialogVisible);
+    let that = this;
+    this.$bus.$on("handleLogin", function (type = true) {
       that.dialogVisible = type;
-    }) 
+    })
   },
-    beforeDestroy() {
-   this.$bus.$off('handleLogin');
+  beforeDestroy() {
+    this.$bus.$off("handleLogin");
   },
   computed: {
-    //是否登录
-    isLogin() {
-      return JSON.parse(sessionStorage.getItem("token")) || false;
-    },
     user() {
-      return JSON.parse(sessionStorage.getItem("userInfo")) || {};
+      return this.$store.state.user.token
+        ? this.$store.state.user.userInfo
+        : false;
     },
     // 是否隐藏头部
     isHidden() {
       return !this.$route.meta.hiddenHeader;
     },
   },
-  // 默认的菜单高亮
-  updated() {
-    const path = this.$route.path
-      const menu = this.menus.find(item => {
-        return path === item.url
-      })
-      if(menu) {
-        this.activeIndex = menu.id
-      }
-  },
   methods: {
-    // 搜索事件- 
-    searchHandler() {
-      const keyword = this.keyword.trim()
-      const { query } = this.$route
-      if(query.query === keyword) return //节流
+    // 搜索事件-
+    HandleSearch() {
+      const keyword = this.keyword.trim();
+
+      const { query } = this.$route;
 
       if(!keyword) return
 
-      this.$router.push({
-        path: '/search',
-        query: {
-          query: keyword,
-          type: 0
-        }
-      })
+      let same = query.key === keyword || !keyword //节流
+
+      if (this.selectActive == "1") {
+        if(this.$route.path.includes('law') && same) return
+        this.$router.push(`/law?key=${keyword}`);
+      } else if(!this.$route.path.includes('search')){
+        if(this.$route.path.includes('search') && same) return
+        this.$router.push(`/search?key=${keyword}`);
+      }
     },
 
-     // 搜索框聚焦时
-    inputFocus: function (e) {
-      // console.log(e.target);
-      // console.log(this.$refs.inputSearch);
-      // e.target.style.background = '#777'
-      // this.$refs.creatorButton.style.display = 'none'
-      // console.log(this.$refs.inputSearch.focus());
-      // // this.$refs.inputSearch.value = 'haha'
+    gotoCreator: function () {
+      if (!this.user) {
+        this.handleLogin();
+        return;
+      }
+      if (this.$route.path.includes("/creator")) return;
+      this.$router.push("/creator/home");
     },
-
-    gotoCreator: function() {
-        if(!this.isLogin) {
-          this.handleLogin()
-          return
-        }
-        if (this.$route.path.includes('/creator')) return
-        this.$router.push('/creator/home')
-    },
-    
 
     // 切换菜单
-    handleSelect(id) {
-      const path = this.$route.path
-      if (this.activeIndex !== id || path !== '/') {
-        this.$router.push(this.menus[id].url);
-        this.activeIndex = id
-      }
+    handleSelect(item) {
+      const {name} = this.$route;
+      if(name && name.includes(item.urlname)) return
+      this.activeIndex = item.id
+      this.$router.push({name: item.urlname})
     },
 
     // 点击登录按钮
@@ -259,14 +234,13 @@ export default {
       this.loginWay = type;
     },
   },
-
 };
 </script>
 
 <style scoped lang='scss'>
 .header {
   width: 100%;
-  height: 60px; 
+  height: 60px;
   position: sticky;
   top: 0;
   z-index: 999;
@@ -346,32 +320,22 @@ export default {
       margin-right: 20px;
     }
 
+    // 输入框
+
     .user-input {
-      border: 1px solid #dcdfe6;
-      border-radius: 5px;
-      transition: 0.4s;
+      width: 20rem;
+      transition: all 0.6s ease-in-out;
 
-      .el-icon-search {
-        font-size: 25px;
-        height: 100%;
-        text-align: center;
-        transform: translateY(5px);
-        cursor: pointer;
+      /deep/.el-select .el-input {
+        width: 7rem;
+      }
+      /deep/.input-with-select .el-input-group__prepend {
+        background-color: #fff;
       }
     }
 
-    .user-input input:focus {
-      width: 500px;
-      background-color: #000;
-      animation: inputFocusAnimate 1s linear 0s;
-    }
-
-    .user-input:hover {
-      border: 1px solid #409eff;
-
-      .el-icon-search {
-        color: #a1a1a7;
-      }
+    .user-input:focus-within {
+      width: 25rem;
     }
 
     .user-message {
@@ -444,7 +408,6 @@ export default {
     }
 
     .user-login-register {
-
     }
   }
 }
@@ -456,15 +419,14 @@ export default {
     }
   }
   .header .header-top-right {
-    .user-input{
+    .user-input {
       width: 80%;
       // height: 25px;
     }
-    
-    .user-message{
+
+    .user-message {
       display: none;
     }
   }
 }
-
 </style>

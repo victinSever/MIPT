@@ -28,4 +28,6 @@
     --border-image: rgb(255, 124, 148);
     --box-bg-shadow: var(--grey-1-a1);
     --box-bg-shadow-hover: var(--grey-1-a2);
+
+    --law-main: #ae0002;
 }

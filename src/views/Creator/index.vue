@@ -24,7 +24,17 @@
               type="primary"
               class="btn-create"
               @click="gotoWritePassage"
-              >创作</el-button
+              >创作文章</el-button
+            >
+          </div>
+
+          <div class="session">
+            <el-link
+              :underline="false"
+              type="primary"
+              class="btn-create"
+              @click="drawerOpen = true"
+              >发布话题</el-link
             >
           </div>
 
@@ -33,8 +43,6 @@
               default-active="content"
               :collapse="false"
               class="el-menu-vertical"
-              @select="handleSelect"
-              @close="handleClose"
               router
             >
               <el-menu-item index="/creator/home">
@@ -53,7 +61,9 @@
                   <i class="el-icon-menu"></i>
                   <span>数据中心</span>
                 </template>
-                <el-menu-item index="/creator/dataCenter">内容数据</el-menu-item>
+                <el-menu-item index="/creator/dataCenter"
+                  >内容数据</el-menu-item
+                >
               </el-submenu>
               <el-menu-item index="/creator/groupUp">
                 <i class="el-icon-document"></i>
@@ -77,53 +87,64 @@
         </div>
       </div>
     </div>
+
+    <el-drawer
+      title="发布话题"
+      :visible.sync="drawerOpen"
+      direction="rtl"
+      :before-close="handleClose"
+    >
+      <TopicEdit @handleCloseDrawer="handleCloseDrawer"/>
+    </el-drawer>
   </div>
 </template>
 
 <script>
-import {getUUID} from '@/utils/index';
+import { getUUID } from "@/utils/index";
+import TopicEdit from '@/components/topic/topic-edit.vue';
 export default {
   name: "createCenter",
+  components: {TopicEdit},
   data() {
     const menu = [
       {
-        text: '首页',
-        icon: 'el-icon-location',
+        text: "首页",
+        icon: "el-icon-location",
       },
       {
-        text: '内容管理',
-        icon: 'el-icon-location',
+        text: "内容管理",
+        icon: "el-icon-location",
         children: [
           {
-            text: '文章管理',
-          }
-        ]
+            text: "文章管理",
+          },
+        ],
       },
       {
-        text: '数据中心',
-        icon: 'el-icon-menu',
+        text: "数据中心",
+        icon: "el-icon-menu",
         children: [
           {
-            text: '内容数据',
-          }
-        ]
+            text: "内容数据",
+          },
+        ],
       },
       {
-        text: '创作成长',
-        icon: 'el-icon-document',
-        index: ''
+        text: "创作成长",
+        icon: "el-icon-document",
+        index: "",
       },
       {
-        text: '活动中心',
-        icon: 'el-icon-s-flag',
-        index: ''
+        text: "活动中心",
+        icon: "el-icon-s-flag",
+        index: "",
       },
       {
-        text: '帮助中心',
-        icon: 'el-icon-setting',
-        index: ''
+        text: "帮助中心",
+        icon: "el-icon-setting",
+        index: "",
       },
-    ]
+    ];
     return {
       menu,
       userInfo: {
@@ -132,31 +153,39 @@ export default {
         username: "victin",
         role: "法学博士",
       },
+      drawerOpen: false,
     };
   },
-  methods: {
+  methods: { 
+    handleCloseDrawer() {
+      this.drawerOpen = false
+    },
+    handleClose(done) {
+      this.$confirm("确认关闭？")
+        .then((_) => {
+          done();
+        })
+        .catch((_) => {});
+    },
+    gotoEditTopic() {},
     copyToCutting(text) {
-      const copyToClipboard = (text) => navigator.clipboard && navigator.clipboard.writeText && navigator.clipboard.writeText(text)
+      const copyToClipboard = (text) =>
+        navigator.clipboard &&
+        navigator.clipboard.writeText &&
+        navigator.clipboard.writeText(text);
 
-      copyToClipboard(text)
-      this.$message.success('复制成功')
+      copyToClipboard(text);
+      this.$message.success("复制成功");
     },
 
     // 前往写作页面
-    gotoWritePassage: function() {
-      if(this.$route.path === '/editor') return
+    gotoWritePassage: function () {
+      if (this.$route.path === "/editor") return;
       let routeData = this.$router.resolve({
         name: "editor",
-        params: {id: getUUID()}
+        params: { id: getUUID() },
       });
-      window.open(routeData.href, '_blank');
-    },
-
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
+      window.open(routeData.href, "_blank");
     },
   },
 };

@@ -26,9 +26,9 @@
                 >{{ item.label }}</span
               >
             </div>
-            <div class="passage-list" v-if="passage.length !== 0">
+            <div class="passage-list" v-if="passageList.length !== 0">
               <PassageItem
-                v-for="item in passage"
+                v-for="item in passageList"
                 :key="item.id"
                 :item="item"
               />
@@ -38,10 +38,8 @@
           </el-card>
         </el-col>
         <el-col class="message-right">
-          <!-- <el-card class="box-card"> -->
           <PassageSignIn />
-          <PassageAdver v-for="item in advers" :key="item.id" :data="item" />
-          <!-- </el-card> -->
+          <RecomList :recomList="recomList" />
         </el-col>
       </div>
     </el-row>
@@ -49,80 +47,80 @@
 </template>
 
 <script>
-      const passage = [
-        {
-          id: "12312",
-          username: "法盲张三",
-          userImage:
-            "https://tva3.sinaimg.cn/large/008cs7isly8h7u5on9iu5j30u00u0q5i.jpg",
-          publishImage:
-            "https://tva1.sinaimg.cn/large/008cs7isly8h88hfgvz1qj31ao0t6n3x.jpg",
-          publishTime: "2022-11-1 19:00:00",
-          title: "何劳荣一案，到底谁是真正的主谋？个人理解，大家交流一下",
-          content:
-            "何劳荣， 山东人， 爱吃河粉，爱吃蔬菜，多运动，邵淑华，山西二年，杀害李某某一家",
-          view: "6.1w",
-          dianzan: "372",
-          comment: "271",
-          isview: false,
-        },
-        {
-          id: "21321312",
-          username: "暴力美学",
-          userImage:
-            "https://tva3.sinaimg.cn/large/008cs7isly8h7u5on9iu5j30u00u0q5i.jpg",
-          publishImage:
-            "https://tva1.sinaimg.cn/large/008cs7isly8h88hfgvz1qj31ao0t6n3x.jpg",
-          publishTime: "2022-10-25 19:00:00",
-          title: "这里有一个简单辩论，大家交流一下",
-          content:
-            "王大父杀人案   被贵人王大霞因丕满李良才与其争变瓷砖生意:产生杀人恶念:2002年3月18日晚8时资;" +
-            "被告人王大雷把雇请的丢卫、马本全召到其在四川省成都市的住处，被告人米军、付强受被告" +
-            "人王卫的邀约也一同前往。被告人王大雷对被告人王卫等四人说:“我有个老乡在跟我争夺销售" +
-            "瓷砖生意，这笔生意关系到我一辈子的命运，做不成我就要破产。你们帮我教训他一顿。生意作成" +
-            "了一定给你们好处。”随后，王大雷让王卫等人听候消息。次日晚8时许，王大雷探明了李良才的" +
-            "行踪，即挂电话告知王卫。王卫约上马本全、米军、付强，分别携带长刀、菜刀、木工锯、匕首" +
-            "来到王大雷住处。王大雷说:“我那位老乡9点多钟才回来，被贵人王大霞因丕满李良才与其争" +
-            "变瓷砖生意:产生杀人恶念：2002年年3月18日晚8时资；被告人王大雷把雇请的丢卫、马本全" +
-            "召到其在四川省成都市的住处，被告人米军、付强受被告人王卫的邀约也一同前往.被告人王" +
-            "大雷对被告人王卫等四人说：“我有个老乡在跟我争夺销售瓷砖生意，这笔生意关系到我一辈" +
-            "子的命运，做不成我就要破产.你们帮我教训他一顿.生意作成了一定给你们好处.“随后，王" +
-            "大雷让王卫等人听候消息.次日晚8时许，王大雷探明了李良才的行踪，即挂电话告知王卫.王" +
-            "卫约上马本全、米军、付强，分别携带长刀、菜刀、木工锯、匕首来到王大雷住处.王大雷说：" +
-            "我那位老乡9点多钟才回来",
+const passageList = [
+  {
+    id: "12312",
+    username: "法盲张三",
+    userImage:
+      "https://tva3.sinaimg.cn/large/008cs7isly8h7u5on9iu5j30u00u0q5i.jpg",
+    publishImage:
+      "https://tva1.sinaimg.cn/large/008cs7isly8h88hfgvz1qj31ao0t6n3x.jpg",
+    publishTime: "2022-11-1 19:00:00",
+    title: "何劳荣一案，到底谁是真正的主谋？个人理解，大家交流一下",
+    content:
+      "何劳荣， 山东人， 爱吃河粉，爱吃蔬菜，多运动，邵淑华，山西二年，杀害李某某一家",
+    view: "6.1w",
+    dianzan: "372",
+    comment: "271",
+    isview: false,
+  },
+  {
+    id: "21321312",
+    username: "暴力美学",
+    userImage:
+      "https://tva3.sinaimg.cn/large/008cs7isly8h7u5on9iu5j30u00u0q5i.jpg",
+    publishImage:
+      "https://tva1.sinaimg.cn/large/008cs7isly8h88hfgvz1qj31ao0t6n3x.jpg",
+    publishTime: "2022-10-25 19:00:00",
+    title: "这里有一个简单辩论，大家交流一下",
+    content:
+      "王大父杀人案   被贵人王大霞因丕满李良才与其争变瓷砖生意:产生杀人恶念:2002年3月18日晚8时资;" +
+      "被告人王大雷把雇请的丢卫、马本全召到其在四川省成都市的住处，被告人米军、付强受被告" +
+      "人王卫的邀约也一同前往。被告人王大雷对被告人王卫等四人说:“我有个老乡在跟我争夺销售" +
+      "瓷砖生意，这笔生意关系到我一辈子的命运，做不成我就要破产。你们帮我教训他一顿。生意作成" +
+      "了一定给你们好处。”随后，王大雷让王卫等人听候消息。次日晚8时许，王大雷探明了李良才的" +
+      "行踪，即挂电话告知王卫。王卫约上马本全、米军、付强，分别携带长刀、菜刀、木工锯、匕首" +
+      "来到王大雷住处。王大雷说:“我那位老乡9点多钟才回来，被贵人王大霞因丕满李良才与其争" +
+      "变瓷砖生意:产生杀人恶念：2002年年3月18日晚8时资；被告人王大雷把雇请的丢卫、马本全" +
+      "召到其在四川省成都市的住处，被告人米军、付强受被告人王卫的邀约也一同前往.被告人王" +
+      "大雷对被告人王卫等四人说：“我有个老乡在跟我争夺销售瓷砖生意，这笔生意关系到我一辈" +
+      "子的命运，做不成我就要破产.你们帮我教训他一顿.生意作成了一定给你们好处.“随后，王" +
+      "大雷让王卫等人听候消息.次日晚8时许，王大雷探明了李良才的行踪，即挂电话告知王卫.王" +
+      "卫约上马本全、米军、付强，分别携带长刀、菜刀、木工锯、匕首来到王大雷住处.王大雷说：" +
+      "我那位老乡9点多钟才回来",
 
-          view: "10w",
-          dianzan: "255",
-          comment: "1000",
-          isview: false,
-        },
-        {
-          id: "264556",
-          username: "文武双全",
-          userImage: "",
-          publishImage: "",
-          publishTime: "2022-10-03 19:00:00",
-          title: "类案匹配模糊，如何扩大精准范围？",
-          content:
-            "何劳荣， 山东人， 爱吃河粉，爱吃蔬菜，多运动，邵淑华，山西二年，杀害李某某一家321321311231321312",
+    view: "10w",
+    dianzan: "255",
+    comment: "1000",
+    isview: false,
+  },
+  {
+    id: "264556",
+    username: "文武双全",
+    userImage: "",
+    publishImage: "",
+    publishTime: "2022-10-03 19:00:00",
+    title: "类案匹配模糊，如何扩大精准范围？",
+    content:
+      "何劳荣， 山东人， 爱吃河粉，爱吃蔬菜，多运动，邵淑华，山西二年，杀害李某某一家321321311231321312",
 
-          view: "10w",
-          dianzan: "255",
-          comment: "1000",
-          isview: false,
-        },
-        {
-          id: "4374376",
-          username: "纸上阡陌",
-          userImage:
-            "https://tva3.sinaimg.cn/large/008cs7isly8h7u5on9iu5j30u00u0q5i.jpg",
-          publishImage:
-            "https://tva1.sinaimg.cn/large/008cs7isly8h88hfgvz1qj31ao0t6n3x.jpg",
-          publishTime: "2022-11-2 19:00:00",
-          title: "CLF平台的搭建一体化流程文档",
-          category: "类案",
-          tags: ["项目创建", "CLF"],
-          content: `# CLF项目介绍
+    view: "10w",
+    dianzan: "255",
+    comment: "1000",
+    isview: false,
+  },
+  {
+    id: "4374376",
+    username: "纸上阡陌",
+    userImage:
+      "https://tva3.sinaimg.cn/large/008cs7isly8h7u5on9iu5j30u00u0q5i.jpg",
+    publishImage:
+      "https://tva1.sinaimg.cn/large/008cs7isly8h88hfgvz1qj31ao0t6n3x.jpg",
+    publishTime: "2022-11-2 19:00:00",
+    title: "CLF平台的搭建一体化流程文档",
+    category: "类案",
+    tags: ["项目创建", "CLF"],
+    content: `# CLF项目介绍
 一个专为法律人打造的社交、辩论，答疑平台，基于智能文本抽取算法，可以进行文本抽取，文案生成，法律辩论和信息检索
 
 ## 业务架构
@@ -172,170 +170,169 @@ https://victinsever.github.io/MIPT/dist/index.html
 
 暂未上传
 `,
-          view: "10w",
-          dianzan: "255",
-          comment: "1000",
-          isview: false,
-        },
-        {
-          id: "5646",
-          username: "暴力美学",
-          publishTime: "2022-11-2 20:20:00",
-          title: "这里有一个简单辩论，大家交流一下",
-          content:
-            "何劳荣， 山东人， 爱吃河粉，爱吃蔬菜，多运动，邵淑华，山西二年，杀害李某某一家321321311231321312",
+    view: "10w",
+    dianzan: "255",
+    comment: "1000",
+    isview: false,
+  },
+  {
+    id: "5646",
+    username: "暴力美学",
+    publishTime: "2022-11-2 20:20:00",
+    title: "这里有一个简单辩论，大家交流一下",
+    content:
+      "何劳荣， 山东人， 爱吃河粉，爱吃蔬菜，多运动，邵淑华，山西二年，杀害李某某一家321321311231321312",
 
-          view: "10w",
-          dianzan: "255",
-          comment: "1000",
-          isview: false,
-        },
-        {
-          id: "4325435",
-          username: "暴力美学",
-          publishTime: "2022-11-2 20:37:30",
-          title: "这里有一个简单辩论，大家交流一下",
-          content:
-            "何劳荣， 山东人， 爱吃河粉，爱吃蔬菜，多运动，邵淑华，山西二年，杀害李某某一家321321311231321312",
+    view: "10w",
+    dianzan: "255",
+    comment: "1000",
+    isview: false,
+  },
+  {
+    id: "4325435",
+    username: "暴力美学",
+    publishTime: "2022-11-2 20:37:30",
+    title: "这里有一个简单辩论，大家交流一下",
+    content:
+      "何劳荣， 山东人， 爱吃河粉，爱吃蔬菜，多运动，邵淑华，山西二年，杀害李某某一家321321311231321312",
 
-          view: "10w",
-          dianzan: "255",
-          comment: "1000",
-          isview: false,
-        },
-        {
-          id: "35453425",
-          username: "暴力美学",
-          publishTime: "2022-10-25 19:00:00",
-          title: "这里有一个简单辩论，大家交流一下",
-          content:
-            "何劳荣， 山东人， 爱吃河粉，爱吃蔬菜，多运动，邵淑华，山西二年，杀害李某某一家321321311231321312",
+    view: "10w",
+    dianzan: "255",
+    comment: "1000",
+    isview: false,
+  },
+  {
+    id: "35453425",
+    username: "暴力美学",
+    publishTime: "2022-10-25 19:00:00",
+    title: "这里有一个简单辩论，大家交流一下",
+    content:
+      "何劳荣， 山东人， 爱吃河粉，爱吃蔬菜，多运动，邵淑华，山西二年，杀害李某某一家321321311231321312",
 
-          view: "10w",
-          dianzan: "255",
-          comment: "1000",
-          isview: false,
-        },
-        {
-          id: "2343432",
-          username: "暴力美学",
-          publishTime: "2022-10-25 19:00:00",
-          title: "这里有一个简单辩论，大家交流一下",
-          content:
-            "何劳荣， 山东人， 爱吃河粉，爱吃蔬菜，多运动，邵淑华，山西二年，杀害李某某一家321321311231321312",
+    view: "10w",
+    dianzan: "255",
+    comment: "1000",
+    isview: false,
+  },
+  {
+    id: "2343432",
+    username: "暴力美学",
+    publishTime: "2022-10-25 19:00:00",
+    title: "这里有一个简单辩论，大家交流一下",
+    content:
+      "何劳荣， 山东人， 爱吃河粉，爱吃蔬菜，多运动，邵淑华，山西二年，杀害李某某一家321321311231321312",
 
-          view: "10w",
-          dianzan: "255",
-          comment: "1000",
-          isview: false,
-        },
-        {
-          id: "34435435",
-          username: "暴力美学",
-          publishTime: "2022-10-25 19:00:00",
-          title: "这里有一个简单辩论，大家交流一下",
-          content:
-            "何劳荣， 山东人， 爱吃河粉，爱吃蔬菜，多运动，邵淑华，山西二年，杀害李某某一家321321311231321312",
+    view: "10w",
+    dianzan: "255",
+    comment: "1000",
+    isview: false,
+  },
+  {
+    id: "34435435",
+    username: "暴力美学",
+    publishTime: "2022-10-25 19:00:00",
+    title: "这里有一个简单辩论，大家交流一下",
+    content:
+      "何劳荣， 山东人， 爱吃河粉，爱吃蔬菜，多运动，邵淑华，山西二年，杀害李某某一家321321311231321312",
 
-          view: "10w",
-          dianzan: "255",
-          comment: "1000",
-          isview: false,
-        },
-        {
-          id: "5345",
-          username: "暴力美学",
-          publishTime: "2022-10-25 19:00:00",
-          title: "这里有一个简单辩论，大家交流一下",
-          content:
-            "何劳荣， 山东人， 爱吃河粉，爱吃蔬菜，多运动，邵淑华，山西二年，杀害李某某一家321321311231321312",
+    view: "10w",
+    dianzan: "255",
+    comment: "1000",
+    isview: false,
+  },
+  {
+    id: "5345",
+    username: "暴力美学",
+    publishTime: "2022-10-25 19:00:00",
+    title: "这里有一个简单辩论，大家交流一下",
+    content:
+      "何劳荣， 山东人， 爱吃河粉，爱吃蔬菜，多运动，邵淑华，山西二年，杀害李某某一家321321311231321312",
 
-          view: "10w",
-          dianzan: "255",
-          comment: "1000",
-          isview: false,
-        },
-      ];
+    view: "10w",
+    dianzan: "255",
+    comment: "1000",
+    isview: false,
+  },
+];
+const tags = [
+  { label: "全部", value: 1 },
+  { label: "时事热议", value: 2 },
+  { label: "经典案列", value: 3 },
+  { label: "争议辩论", value: 4 },
+];
+const order = [
+  { label: "推荐", value: 1 },
+  { label: "最新", value: 2 },
+  { label: "热榜", value: 3 },
+];
+const recomList = [
+  {
+    id: "1",
+    userImage:
+      "https://tva3.sinaimg.cn/large/008cs7isly8h7u5on9iu5j30u00u0q5i.jpg",
+    username: "法盲张三",
+  },
+  {
+    id: "2",
+    userImage:
+      "https://tva3.sinaimg.cn/large/008cs7isly8h7u5on9iu5j30u00u0q5i.jpg",
+    username: "法盲张三",
+  },
+  {
+    id: "3",
+    userImage:
+      "https://tva3.sinaimg.cn/large/008cs7isly8h7u5on9iu5j30u00u0q5i.jpg",
+    username: "法盲张三",
+  },
+];
 import PassageItem from "@/components/passage/passage-item.vue";
 import PassageSignIn from "@/components/passage/passage-signIn.vue";
-import PassageAdver from "@/components/passage/passage-adver.vue";
+import RecomList from "@/components/passage/passage-recom.vue";
 export default {
   name: "passagePage",
-  components: { PassageItem, PassageSignIn, PassageAdver },
+  components: { PassageItem, PassageSignIn, RecomList },
   data() {
-    const tags = [
-      { label: "全部", value: 1 },
-      { label: "时事热议", value: 2 },
-      { label: "经典案列", value: 3 },
-      { label: "争议辩论", value: 4 },
-    ];
-    const order = [
-      { label: "推荐", value: 1 },
-      { label: "最新", value: 2 },
-      { label: "热榜", value: 3 },
-    ];
-    const advers = [
-      {
-        imageUrl:
-          "https://tva4.sinaimg.cn/large/008cs7isly8h7u3052ugij30i20bj0ti.jpg",
-        type: 1,
-        isView: true,
-        link: "http://www.baidu.com",
-        id: "1",
-      },
-      {
-        imageUrl:
-          "https://himg2.huanqiucdn.cn/attachment2010/2018/1220/20181220083449260.jpg",
-        type: 2,
-        isView: true,
-        link: "http://www.baidu.com",
-        id: "2",
-      },
-      {
-        imageUrl: "https://filekp.ccwb.cn/api/file/201912131733397R4WLUw.jpg",
-        type: 3,
-        isView: true,
-        link: "http://www.baidu.com",
-        id: "3",
-      },
-    ];
-
     return {
       tags,
       order,
-      passage: [],
-      advers,
+      passageList: [],
+      recomList,
       tagActive: 1,
       orderActive: 1,
       loadTimes: 0,
       isLoading: false,
+
+      // 文章分页，下拉刷新增加一页，固定大小为5条
+      page: {
+        pageSize: 5,
+        pageNum: 1,
+      },
     };
   },
   mounted() {
-    const listenr = window.addEventListener("scroll", this.handleScroll, true);
+    window.addEventListener("scroll", this.handleScroll, true);
     this.getData();
+  },
+  destroyed() {
+    window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
     async getData() {
+      if (this.isLoading) return; //节流
 
       this.isLoading = true;
-      this.passage = [];
       setTimeout(() => {
-        this.passage = passage;
+        this.passageList = this.passageList.concat(passageList);
         this.isLoading = false;
       }, 500);
     },
 
-    // 监听鼠标位置，进行数据懒加载
+    // 监听鼠标位置，在到达地步150px长度触底，进行数据懒加载
     handleScroll() {
-      let scrollTop =
-        window.pageYOffset ||
-        document.documentElement.scrollTop ||
-        document.body.scrollTop;
-      let rate = Math.floor(scrollTop / screen.height);
-      if (rate > this.loadTimes) {
+      if (window.pageYOffset + window.innerHeight >= document.body.offsetHeight - 150) {
         this.loadTimes++;
-        console.log("临界次数+1");
+        this.page.pageNum++;
+        this.getData();
       }
     },
 

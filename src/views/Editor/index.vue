@@ -6,15 +6,33 @@
       </div>
       <div class="right">
         <div class="session">
-          <el-button
-            type="primary"
-            v-text="'发布'"
-            round
-            @click="handlePublish"
-          ></el-button>
+          <el-popover
+            placement="bottom-start"
+            trigger="click"
+            :offset="-450"
+          >
+            <el-button
+              type="primary"
+              v-text="'发布'"
+              round
+              @click="getContent()"
+              slot="reference"
+            ></el-button>
+            <EditPublish :content="content" :title="title"/>
+          </el-popover>
         </div>
         <div class="session">
-          <span class="iconfont icon-change" @click="handleChangeEditor"></span>
+          <el-tooltip
+            class="item"
+            effect="dark"
+            :content="isMDEditor ? '转为富文本编辑器' : '转为markdown编辑器'"
+            placement="top-end"
+          >
+            <span
+              class="iconfont icon-change"
+              @click="handleChangeEditor"
+            ></span>
+          </el-tooltip>
         </div>
         <div class="session userImage">
           <el-image
@@ -28,8 +46,8 @@
 
     <!-- 编辑器 -->
     <div class="main">
-      <MavonEditor v-if="isMDEditor" :content="content" ref="md" />
-      <YkEditor v-else :getContent="getContent" :content="content" ref="yk" />
+      <MavonEditor v-if="isMDEditor"  :content="content" ref="md" />
+      <YkEditor v-else :content="content" ref="yk" />
     </div>
   </div>
 </template>
@@ -37,10 +55,11 @@
 <script>
 import YkEditor from "@/components/editor/yk-editor";
 import MavonEditor from "@/components/editor/mavon-editor";
+import EditPublish from "@/components/editor/edit-publish";
 // import Upload from '@/components/upload/singleUpload';
 export default {
   name: "editorPassage",
-  components: { YkEditor, MavonEditor },
+  components: { YkEditor, MavonEditor, EditPublish },
   data() {
     return {
       isMDEditor: true,
@@ -52,15 +71,6 @@ export default {
     user() {
       return JSON.parse(sessionStorage.getItem("userInfo")) || false;
     },
-  },
-  mounted() {
-    //     ## promise浅析
-    // ```javascript promise浅析
-    // let a = async function() {
-    //   return await new Promise(() => {
-    //     resolve()
-    //   )
-    // }
   },
   methods: {
     // 进入个人页
@@ -76,51 +86,15 @@ export default {
         }编辑器吗~~`
       );
       if (con) {
+        this.getContent() 
         this.isMDEditor = !this.isMDEditor;
       }
     },
 
-    //发布
-    handlePublish() {
-      this.getContent();
-      if (!this.isLegal()) return;
-
-      this.$message.success("发布成功！文章正在审核中...");
-      this.$nprogress.start();
-      setTimeout(() => {
-        this.$nprogress.done();
-        this.$router.push({
-          name: "essays",
-          params: {
-            title: this.title,
-            content: this.content,
-            publishTime: new Date().toLocaleDateString()
-          },
-        });
-      }, 1000);
-    },
-
-    // 检验数据合法性
-    isLegal() {
-      if (!this.title || this.content.length < 10) {
-        this.$notify({
-          title: "警告",
-          message: !this.title
-            ? "你还没有输入文章标题"
-            : "你的文章字数不足，继续丰富你的内容吧！",
-          type: "warning",
-          offset: 120,
-          duration: 2000,
-        });
-        return false;
-      }
-      return true;
-    },
-
     //获取子组件编辑器的的文章内容
     getContent() {
-      if (this.isMDEditor) this.content = this.$refs.md.editorContent;
-      else this.content = this.$refs.yk.editorContent;
+      if (this.isMDEditor) this.content = this.$refs.md.editData;
+      else this.content = this.$refs.yk.editorData;
     },
   },
 };
@@ -136,13 +110,17 @@ export default {
     align-items: center;
     justify-content: space-between;
 
-    .title-input {
-      height: 4rem;
-      border: none;
-      outline: none;
-      font-size: 1.8rem;
-      background-color: #f4f5f5;
+    .left {
+      width: calc(50% - 2rem);
       padding-left: 2rem;
+
+      .title-input {
+        height: 4rem;
+        border: none;
+        outline: none;
+        font-size: 1.8rem;
+        width: 100%;
+      }
     }
 
     .right {

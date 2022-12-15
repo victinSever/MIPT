@@ -18,11 +18,13 @@ import settings from './settings'
 const routes = [
     {
         path: '/',
+        name: 'home',
         meta: { title: 'CLF'},
         component: () => import('@/views/Home'),
     },
     {
         path: '/tool',
+        name: 'tool',
         meta: { title: '工具箱'},
         component: () => import('@/views/Tool'),
         redirect: '/tool/entity',
@@ -30,16 +32,19 @@ const routes = [
     },
     {
         path: '/arguments',
+        name: 'arguments',
         meta: { title: '案情辩论'},
         component: () => import('@/views/Arguments'),
     },
     {
         path: '/course',
+        name: 'course',
         meta: { title: '课程学习'},
         component: () => import('@/views/Course'),
     },
     {
         path: '/shop',
+        name: 'shop',
         meta: { title: '周边商城'},
         component: () => import('@/views/Shop'),
     },
@@ -67,6 +72,16 @@ const routes = [
         component: () => import('@/views/Search'),
     },
     {
+        path: '/law',
+        meta: { title: '法律条文检索'},
+        component: () => import('@/views/Law'),
+    },
+    {
+        path: '/wenshu',
+        meta: { title: '法条详情'},
+        component: () => import('@/views/Wenshu'),
+    },
+    {
         path: '/post/:id',
         name: 'post',
         meta: { title: 'CLF'},
@@ -92,8 +107,15 @@ const routes = [
         meta: { title: '个人设置' },
         component: () => import('@/views/User/setting'),
         redirect: 'setting/profile',
-        children: settings
+        children: settings,
 
+
+    } ,
+    {
+        path: '/topic',
+        name: 'topic',
+        meta: { title: '话题详情' },
+        component: () => import('@/views/Topic'),     
     } ,
 ]
 

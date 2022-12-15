@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "30418",
+      "name": "like",
+      "font_class": "like",
+      "unicode": "e669",
+      "unicode_decimal": 58985
+    },
+    {
+      "icon_id": "6151277",
+      "name": "cloud download",
+      "font_class": "clouddownload",
+      "unicode": "e81b",
+      "unicode_decimal": 59419
+    },
+    {
+      "icon_id": "6447193",
+      "name": "取消",
+      "font_class": "quxiao",
+      "unicode": "e64a",
+      "unicode_decimal": 58954
+    },
+    {
       "icon_id": "151154",
       "name": "pointer",
       "font_class": "pointer",

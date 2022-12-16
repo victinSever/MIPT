@@ -37,6 +37,12 @@ const getNumberOfDays = function (date1, date2 = new Date()) {
     }
 }
 
+/**
+ * 生成随机颜色
+ * @returns 
+ */
+const generateRandomHexColor = () => `#${Math.floor(Math.random() * 0xffffff).toString(16)}`
+
 export {
-    getUUID, getNumberOfDays
+    getUUID, getNumberOfDays, generateRandomHexColor
 }

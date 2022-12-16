@@ -2,54 +2,106 @@
   <div>
     <!-- 操作区 -->
     <div class="content-box">
-      <div class="box-left">
+      <div class="box-top">
         <el-input
           type="textarea"
-          placeholder="输入类案/文书/词句   Enter换行，alt+Enter结束"
-          :rows="4"
+          placeholder="输入类案/文书/词句"
+          :rows="12"
           ref="textareaTool"
-          v-model="value"
-          @keyup.enter.native="handleSave"
+          v-model="content"
         ></el-input>
       </div>
-      <div class="box-right">
-        <el-button type="primary" v-text="'GO'" @click="handleSave"></el-button>
+      <div class="box-bottom">
+        <el-button
+          type="primary"
+          :loading="isloading"
+          v-text="isloading ? '正在提取中，长文本需要稍加等待···' : '开始提取'"
+          @click="handleSave"
+          round
+        ></el-button>
       </div>
     </div>
 
-    <!-- 标签区 -->
-    <div class="tags">
-      <div class="tagRow-item" v-for="item in cateTags" :key="item.id">
-        <span class="tagRow-title">{{ item.label }}：</span>
-        <el-tag
-          class="tagRow-label"
-          v-text="item2.label"
-          v-for="item2 in item.tags"
-          :key="item2.id"
-          :style="'visibility: ' + (item2.hidden ? 'hidden' : 'none')"
-        ></el-tag>
+    <div class="main">
+      <div class="sides card">
+        <div class="title">
+          <span class="iconfont icon-typeofentity"></span>
+          <span v-text="'文书实体抽取结果'"></span>
+        </div>
+        <div class="content sides-list">
+          <div class="side-item" v-for="item in entry" :key="item.entityId">
+            <div
+              class="entity-item"
+              v-if="item.entities && item.entities.length !== 0"
+            >
+              <div class="entity-class">
+                <span class="iconfont icon-deng"></span>
+                <span v-text="item.entityClass"></span>
+              </div>
+              <div class="entity-box" v-if="item.entities">
+                <div
+                  class="entity"
+                  v-for="(item1, index) in item.entities"
+                  :key="index"
+                >
+                  <el-tag
+                    size="samll"
+                    :style="'color: #fff; background: ' + getColor()"
+                    round
+                    v-text="item1"
+                  ></el-tag>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="main-right">
+        <div class="feature card">
+          <div class="title">
+            <span class="iconfont icon--in--feature"></span>
+            <span v-text="'文书特征'"></span>
+          </div>
+          <div class="content sides-list">
+            <div
+              class="feature-item"
+              v-for="(item, index) in feature"
+              :key="index"
+            >
+              <el-tag
+                size="medium"
+                v-text="item"
+                :style="'color: ' + getColor()"
+              ></el-tag>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- 图表区 -->
-    <div class="echarts">
+    <!-- <div class="echarts">
         <span class="echart-title">实体关系图（测试）</span>
       <div
         class="entity-echarts"
         style="width: 500px; height: 500px"
         ref="entityEcharts"
       ></div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
-import NProgress from "nprogress";
+import { mapActions } from "vuex";
+import { generateRandomHexColor } from "@/utils";
 export default {
   data() {
     return {
       cateTags: [],
-      value: "",
+      content: "",
+      entry: [],
+      feature: [],
+      isloading: false,
     };
   },
   computed: {
@@ -58,25 +110,52 @@ export default {
     },
   },
   mounted() {
-    this.createEntityEcharts();
+    console.log(generateRandomHexColor());
+    // this.createEntityEcharts();
     this.$refs.textareaTool.focus();
   },
   methods: {
+    ...mapActions("tool", ["getEntity"]),
+
+    // 获取随机颜色
+    getColor() {
+      return generateRandomHexColor();
+    },
+
+    async getData() {
+      const formdata = new FormData();
+      formdata.append("instrument", this.content);
+      try {
+        this.$nprogress.start();
+        this.isloading = true;
+        const { data: res } = await this.getEntity(formdata);
+        this.isloading = false;
+        this.$nprogress.done();
+        this.entry = res.data.entry;
+        this.feature = res.data.feature;
+        console.log(this.entry, this.feature);
+      } catch (e) {
+        this.$message.error(e);
+      }
+    },
+
     // 引入根据实体生成图表
     createEntityEcharts() {
       //创建节点
-         var nodes  = [
+      var nodes = [
         {
           name: "韦小宝",
           id: "1",
-          x: 200, y:200,
-          symbolSize: 60,//节点大小
-          symbol:'circle',//节点形状，'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow', 'none'也可'image://url'设置节点图片
+          x: 200,
+          y: 200,
+          symbolSize: 60, //节点大小
+          symbol: "circle", //节点形状，'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow', 'none'也可'image://url'设置节点图片
         },
         {
           name: "方怡",
           id: "2",
-          x: 500, y:200,
+          x: 500,
+          y: 200,
           symbolSize: 60,
         },
         {
@@ -146,8 +225,8 @@ export default {
       let option = {
         series: [
           {
-            type: 'graph',
-            layout: 'force',
+            type: "graph",
+            layout: "force",
             nodes: nodes,
             links: links,
             itemStyle: {
@@ -181,7 +260,8 @@ export default {
               align: "center",
             },
             autoCurveness: 0.01, //多条边的时候，自动计算曲率
-            edgeLabel: {//边的设置
+            edgeLabel: {
+              //边的设置
               show: true,
               position: "middle",
               fontSize: 12,
@@ -192,9 +272,9 @@ export default {
             edgeSymbol: ["circle", "arrow"], //边两边的类型
             force: {
               repulsion: 100,
-               gravity:0.01,
-                edgeLength:200
-           }
+              gravity: 0.01,
+              edgeLength: 200,
+            },
           },
         ],
       };
@@ -203,42 +283,40 @@ export default {
 
     // 提取事件
     handleSave(e) {
-      const isSave =
-        (e.keyCode === 13 && e.altKey) || e.target.type === "button";
-      if (isSave) {
-        if (!this.value.trim())
-          return this.$message.warning("你还没有输入内容！");
-        NProgress.start();
-        this.cateTags = [
-          {
-            id: 1,
-            label: "案由",
-            tags: [{ id: 11, label: "选举权纠纷案", hidden: false }],
-          },
-          {
-            id: 2,
-            label: "案件类型",
-            tags: [{ id: 21, label: "民事", hidden: false }],
-          },
-          {
-            id: 3,
-            label: "案件特征",
-            tags: [
-              { id: 31, label: "请求财产损失", hidden: false },
-              { id: 32, label: "财产损害", hidden: false },
-              { id: 33, label: "请求停止侵害", hidden: false },
-              { id: 34, label: "侵犯肖像权", hidden: false },
-            ],
-          },
-          {
-            id: 4,
-            label: "争议焦点",
-            tags: [{ id: 31, label: "一般人格权争议", hidden: false }],
-          },
-        ];
-        this.createEntityEcharts();
-        NProgress.done();
-      }
+      if (this.isloading) return;
+      if (!this.content.trim())
+        return this.$message.warning("你还没有输入内容！");
+
+      this.getData();
+
+      this.cateTags = [
+        {
+          id: 1,
+          label: "案由",
+          tags: [{ id: 11, label: "选举权纠纷案", hidden: false }],
+        },
+        {
+          id: 2,
+          label: "案件类型",
+          tags: [{ id: 21, label: "民事", hidden: false }],
+        },
+        {
+          id: 3,
+          label: "案件特征",
+          tags: [
+            { id: 31, label: "请求财产损失", hidden: false },
+            { id: 32, label: "财产损害", hidden: false },
+            { id: 33, label: "请求停止侵害", hidden: false },
+            { id: 34, label: "侵犯肖像权", hidden: false },
+          ],
+        },
+        {
+          id: 4,
+          label: "争议焦点",
+          tags: [{ id: 31, label: "一般人格权争议", hidden: false }],
+        },
+      ];
+      // this.createEntityEcharts();
     },
   },
 };
@@ -249,9 +327,10 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-direction: column;
 
-  .box-left {
-    width: 90%;
+  .box-top {
+    width: 100%;
 
     /deep/.el-textarea__inner {
       // background-color: #f2f3f5;
@@ -261,8 +340,8 @@ export default {
     }
   }
 
-  .box-right {
-    width: 10%;
+  .box-bottom {
+    margin-top: 1rem;
     display: flex;
     justify-content: center;
   }
@@ -286,11 +365,89 @@ export default {
 }
 
 .echarts {
-    margin-top: 2rem;
+  margin-top: 2rem;
 
   .entity-echarts {
     padding: 2rem;
     background-color: #fcfcfc;
+  }
+}
+
+.card {
+  background-color: #fff;
+  box-shadow: 0 0.625rem 1.875rem -0.9375rem var(--box-bg-shadow);
+  border-radius: 1rem;
+  padding: 1rem 0;
+}
+.main {
+  width: 100%;
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+  min-height: 20rem;
+
+  .title {
+    padding: 0 1rem;
+    font-size: 1.2rem;
+    color: #a34440;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--bgc-clr5);
+
+    .iconfont {
+      font-size: 1.3rem;
+      margin-right: 0.5rem;
+    }
+  }
+
+  .content {
+    padding: 0 1rem;
+  }
+
+  .sides {
+    width: 65%;
+    overflow: hidden;
+
+    .entity-item {
+      margin: 1rem 0;
+
+      .entity-class {
+        width: 5rem;
+        margin-right: 1rem;
+        font-size: 1.2rem;
+        color: var(--grey-font-1);
+        margin-bottom: 0.5rem;
+
+      }
+
+      .entity-box {
+        display: flex;
+        flex-wrap: wrap;
+
+        .entity {
+          margin-right: 0.8rem;
+          margin-bottom: 0.5rem;
+          color: var(--grey-font-2);
+        }
+      }
+    }
+  }
+
+  .main-right {
+    width: 32%;
+
+    .feature {
+      min-height: 20rem;
+      overflow: hidden;
+
+      .content {
+        display: flex;
+        flex-wrap: wrap;
+
+        .feature-item {
+          margin: 0.5rem;
+        }
+      }
+    }
   }
 }
 </style>

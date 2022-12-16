@@ -47,7 +47,7 @@ module.exports = {
       '/sever':{
         target:'https://53r23232p6.goho.co',
         ws:true,
-      }
+      },
     }
   }
 }

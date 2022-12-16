@@ -9,10 +9,6 @@ export default async (
     proxyUrl = ''
     ) => {
 
-    // // 向第三方获取ip更改代理地址
-    // if(proxyUrl) {
-    //     url = proxyUrl + url
-    // }
     if(!url.includes('/ip') && !url.includes('imageSever')) url = '/serve' + url
 
     type = type.toUpperCase()
@@ -23,7 +19,6 @@ export default async (
         })
     }
 
-    console.log(url);
     return await axios({
         method: type, url, params, header
     })

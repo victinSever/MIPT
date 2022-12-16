@@ -1,5 +1,5 @@
 <template>
-  <div>信息抽取</div>
+  <div>该功能暂时未开放</div>
 </template>
 
 <script>

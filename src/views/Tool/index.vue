@@ -4,7 +4,11 @@
       <!-- 头部 -->
       <div class="header">
         <div class="header-left">
-          <span class="header-title" v-text="'CLF工具箱'" @click="$router.push('/')"></span>
+          <span
+            class="header-title"
+            v-text="'CLF工具箱'"
+            @click="$router.push('/')"
+          ></span>
           <span
             class="header-introduce"
             v-text="'基于模型学习的机器智能抽取，以精准而优雅'"
@@ -18,8 +22,8 @@
             <span class="username" v-text="username"></span>
           </div>
           <el-link
-            v-text="isLogin ? '退出' : '登录'"
-            :type="isLogin ? 'danger' : 'warning'"
+            v-text="user ? '退出' : '登录'"
+            :type="user ? 'danger' : 'warning'"
             @click="handleLoginOrLoginOut"
           ></el-link>
           <el-link v-text="'返回主页'" @click="$router.push('/')"></el-link>
@@ -45,6 +49,7 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 export default {
   name: "toolPage",
   data() {
@@ -63,24 +68,45 @@ export default {
       isLogin: false,
     };
   },
-
+  computed: {
+    user() {
+      return this.$store.state.user.token
+        ? this.$store.state.user.userInfo
+        : false;
+    },
+  },
 
   methods: {
+    ...mapMutations("user", ["SignOut"]),
     // 登录或者退出登录
     handleLoginOrLoginOut() {
-      
+      if (!this.user) {
+        this.$bus.$emit("handleLogin", true);
+      } else {
+        let con = window.confirm(
+          "确认退出吗，每个经典法律案列都是法律者们辛勤讨论的结果~~"
+        );
+        if (con) {
+          this.SignOut();
+          this.$message.success("退出成功！");
+        }
+      }
     },
 
     // 切换工具菜单
     handleChange(id) {
       this.activeTag = id;
-      let targetName = ''
-      switch(id) {
-        case 0: targetName = 'entity'; break;
-        case 1: targetName = 'info'; break;
+      let targetName = "";
+      switch (id) {
+        case 0:
+          targetName = "entity";
+          break;
+        case 1:
+          targetName = "info";
+          break;
       }
-      if(this.$route.name !== targetName)
-        this.$router.push({ name: targetName })
+      if (this.$route.name !== targetName)
+        this.$router.push({ name: targetName });
     },
   },
 };
@@ -92,7 +118,7 @@ export default {
   // background-color: #33566a;
 
   .centerBox {
-    width: 75%;
+    width: 70rem;
     margin: 0 auto;
     min-height: 100vh;
     // background-color: #33566a;

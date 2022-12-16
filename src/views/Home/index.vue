@@ -325,6 +325,18 @@ export default {
     window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
+
+    // 根据新条件添加数据
+    getNewData() {
+      this.isLoading = true;
+      this.passageList = []
+      setTimeout(() => {
+        this.passageList = passageList
+        this.isLoading = false;
+      }, 500);
+    },
+
+    // 根据条件不断增加数据
     async getData() {
       if (this.isLoading) return; //节流
 
@@ -349,10 +361,11 @@ export default {
 
     handleChangeTagActive(id) {
       this.tagActive = id;
+      this.getNewData();
     },
     handleChangeOrderActive(id) {
       this.orderActive = id;
-      this.getData();
+      this.getNewData();
     },
   },
 };

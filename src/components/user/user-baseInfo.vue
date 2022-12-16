@@ -55,7 +55,7 @@ export default {
         icon: "icon-person",
         title: "我的主页",
         url: "/user",
-        urlname: 'user',
+        urlname: "user",
         id: 1,
         message: 0,
       },
@@ -83,7 +83,7 @@ export default {
       {
         icon: "icon-coursera",
         title: "课程中心",
-        url: "/courseLearn",
+        urlname: "my-course",
         id: 5,
         message: 0,
       },
@@ -120,6 +120,13 @@ export default {
       },
     };
   },
+  computed: {
+    user() {
+      return this.$store.state.user.token
+        ? this.$store.state.user.userInfo
+        : false;
+    },
+  },
   methods: {
     ...mapMutations("user", ["SignOut"]),
 
@@ -127,7 +134,7 @@ export default {
       if (this.$route.path !== item.path) {
         if (item.urlname) {
           this.$router.push({
-            name: item.urlname
+            name: item.urlname,
           });
         }
       }

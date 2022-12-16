@@ -4,7 +4,7 @@
       <div class="post-left">
         <div class="article card">
           <!-- 文章标题 -->
-          <h1 v-text="data.title"></h1>
+          <h1 v-text="'话题：' + data.title"></h1>
 
           <!-- 发布信息 -->
           <div class="publishInfo">
@@ -28,53 +28,88 @@
             </div>
           </div>
 
+          <div class="discription" v-if="data.discription">
+              <span v-text="'概览'" class="discription-title"></span>
+              {{data.discription}}
+          </div>
+
           <!-- 话题内容 -->
-          <div class="article-content markdown-body" v-if="data.topics.length !== 0">
-            <div class="topic-item" v-for="(item, index) in data.topics" :key="item.id">
-                <h3 class="title">
-                    <span class="order" v-text="'争论点' + (index + 1)"></span>
-                    <span class="label" v-text="item.title"></span>
-                </h3>
+          <div class="topic-main">
+            <div class="topic-label">
+              <span class="order" v-text="activeIndex + 1"></span>
+              <span class="label" v-text="activeTopic.title"></span>
             </div>
+          </div>
+          <div class="comment-main">
+            <Comment />
           </div>
 
           <!-- 文章分类 -->
           <div class="article-sort">
             <!-- 分类 -->
-            <span class="article-cate">分类：</span>
-            <el-tag
-              v-if="data.category"
-              v-text="data.category"
-              type="danger"
-            ></el-tag>
-            <el-tag v-else v-text="'暂无'"></el-tag>
-            <span class="article-tags">标签：</span>
-            <span v-if="data.tags">
+            <div class="category">
+              <span class="article-cate">分类：</span>
               <el-tag
-                v-for="item in data.tags"
-                :key="item"
-                v-text="item"
+                v-if="data.category"
+                v-text="data.category"
+                type="danger"
               ></el-tag>
-            </span>
-            <el-tag v-else v-text="'暂无'"></el-tag>
+              <el-tag v-else v-text="'暂无'"></el-tag>
+            </div>
+            <div class="tags">
+              <span class="article-tags">标签：</span>
+              <span v-if="data.tags">
+                <el-tag
+                  v-for="item in data.tags"
+                  :key="item"
+                  v-text="item"
+                ></el-tag>
+              </span>
+              <el-tag v-else v-text="'暂无'"></el-tag>
+            </div>
           </div>
         </div>
         <div class="comment card">
-          <PostComment />
+          
         </div>
       </div>
-      <div class="post-right card"></div>
+      <div class="post-right">
+        <div class="dir card">
+          <div class="topic-title">
+            <h3 v-text="'争论点目录'"></h3>
+          </div>
+          <div class="topic-list" v-if="data.topics.length !== 0">
+            <div
+              :class="'topic-item' + (activeIndex == index ? ' active' : '')"
+              v-for="(item, index) in data.topics"
+              :key="item.id"
+              @click="handleChangeActive(item,index)"
+            >
+              <h3 class="title">
+                <span class="order">
+                  <el-tag
+                    type="danger"
+                    size="small"
+                    v-text="'论点' + (index + 1)"
+                  ></el-tag>
+                </span>
+                <span class="label" v-text="item.title"></span>
+              </h3>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div class="article-suspended-panel">
-        <PostBtns />
+        <CommentBtns />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import PostComment from "@/components/post/post-comment.vue";
-import PostBtns from "@/components/post/post-btns.vue";
+import Comment from "@/components/post/post-comment.vue";
+import CommentBtns from "@/components/post/post-btns.vue";
 const topicData = {
   username: "狂徒张三",
   userImage: "",
@@ -92,24 +127,103 @@ const topicData = {
     { id: "3", title: "不同立场的社会观念不同" },
   ],
 };
+   const commentList = [
+      {
+        id: "1",
+        userInfo: {
+          userImage:
+            "https://tva3.sinaimg.cn/large/008cs7isly8h88fjfp7lzj30730730sv.jpg",
+          username: "逐光而行",
+          level: 2,
+        },
+        content: "大佬好强！",
+        dianzan: 0,
+        comment: 0,
+        publishTime: "2022-11-17 20:21:20",
+      },
+      {
+        id: "2",
+        userInfo: {
+          userImage:
+            "https://tva3.sinaimg.cn/large/008cs7isly8h7u5on9iu5j30u00u0q5i.jpg",
+          username: "user1245632",
+          level: 1,
+        },
+        content: "哈哈！",
+        dianzan: 2,
+        comment: 1,
+        publishTime: "2022-11-12 20:21:20",
+        children: [
+          {
+            id: "2-2",
+            userInfo: {
+              userImage:
+                "https://tva3.sinaimg.cn/large/008cs7isly8h7u5on9iu5j30u00u0q5i.jpg",
+              username: "逐光而行",
+              level: 2,
+            },
+            content: "可以哈fgdsayh封神榜，。水电费2才对吧士大夫2得分的违法，3121发算法，21被怒重复的时刻！，打撒付会计师客服部vadjsf",
+            dianzan: 2,
+            comment: 0,
+            publishTime: "2022-11-12 20:21:20",
+          },
+          {
+            id: "225",
+            userInfo: {
+              userImage:
+                "https://tva3.sinaimg.cn/large/008cs7isly8h88fjfp7lzj30730730sv.jpg",
+              username: "梦的方向",
+              level: 2,
+            },
+            content: "大佬好强！23333333333333333333333333333333333333333333333",
+            dianzan: 23,
+            comment: 1,
+            publishTime: "2022-11-17 20:21:20",
+            children: [
+              {
+                id: "2-2-2",
+                userInfo: {
+                  userImage:
+                    "https://tva3.sinaimg.cn/large/008cs7isly8h7u5on9iu5j30u00u0q5i.jpg",
+                  username: "三人行",
+                  level: 2,
+                },
+                content: "有点东西，但不多",
+                dianzan: 2,
+                comment: 0,
+                publishTime: "2022-11-12 20:21:20",
+              },
+            ],
+          },
+        ],
+      },
+    ];
 export default {
   naem: "topicPage",
-  components: { PostBtns, PostComment },
+  components: { Comment,CommentBtns },
   data() {
     return {
       data: {},
+      activeTopic: {},
+      activeIndex: 0,
+      commentList:commentList
     };
   },
   created() {
-    this.data = topicData
+    this.data = topicData;
+    this.activeTopic = topicData.topics.length !== 0 ? topicData.topics[0] : {};
+    this.activeIndex = 0
   },
+  methods: {
+    handleChangeActive(item, index) {
+      this.activeIndex = index
+      this.activeTopic = item
+    }
+  }
 };
 </script>
 
 <style scoped lang='scss'>
-
-
-
 .post {
   width: 100%;
 
@@ -176,25 +290,58 @@ export default {
           }
         }
 
-        .article-image {
-          margin-bottom: 1rem;
+        .discription{
+          margin-bottom: 2rem;
+          line-height: 1.5;
+
+          .discription-title{
+            color: var(--grey-font-1);
+          }
+        }
+
+        .topic-main{
+          margin-bottom: 2rem;
+          .topic-label{
+            height: 2.5rem;
+            line-height: 2.5rem;
+
+            .order{
+              display: inline-block;
+              width: 2.5rem;
+              height: 2.5rem;
+              border-radius: 50%;
+              background: linear-gradient(90deg, var(--bgc-clr2), var(--bgc-clr1));
+              margin-right: 1rem;
+              text-align: center;   
+              border: 0.1rem solid var(--pink-1);     
+              color: #fff;
+              font-size: 1.5rem;
+            }
+
+            .label{
+              font-size: 1.3rem;
+            }
+          }
+        }
+
+        .comment{
         }
 
         .article-sort {
           font-size: 0.8rem;
           margin: 1rem 0;
+          display: flex;
 
           .el-tag {
             margin-right: 0.5rem;
           }
+
+          .category {
+            margin-right: 1rem;
+          }
         }
       }
 
-      .comment {
-        min-height: 20vh;
-        margin-top: 20px;
-        padding: 2.67rem;
-      }
     }
 
     .post-right {
@@ -207,6 +354,50 @@ export default {
       margin-left: -7rem;
       top: 140px;
       z-index: 2;
+    }
+  }
+}
+
+.dir {
+  padding: 1rem 0;
+  box-shadow: 0 0.625rem 1.875rem -0.9375rem var(--box-bg-shadow);
+
+  .topic-title {
+    line-height: 2rem;
+    padding: 0 1rem;
+    border-bottom: 0.1rem solid var(--bgc-clr6);
+  }
+
+  .topic-list {
+    padding: 0 1rem;
+
+    .topic-item {
+      margin: 1rem 0;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      .order {
+        margin-right: 0.5rem;
+      }
+
+      .label {
+        font-weight: normal;
+        font-size: 1rem;
+      }
+    }
+
+    .topic-item:hover {
+      background-color: var(--bgc-clr8);
+      .label {
+        color: var(--bgc-clr2);
+      }
+    }
+
+    .active{
+      .label{
+        color: var(--pink-1);
+      }
     }
   }
 }

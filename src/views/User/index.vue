@@ -52,7 +52,12 @@
               </div>
               <!-- 编辑按钮 -->
               <div class="btn-edit">
-                <el-button v-text="'编辑信息'" type="primary" plain @click="handleGotoSetting"></el-button>
+                <el-button
+                  v-text="'编辑信息'"
+                  type="primary"
+                  plain
+                  @click="handleGotoSetting"
+                ></el-button>
               </div>
             </div>
           </div>
@@ -85,12 +90,12 @@
         </div>
       </div>
       <div class="right-box">
-       <div class="info card">
-         <div class="info-title">
-          <span v-text="'活跃信息'"></span>
-        </div>
-        <div class="info-list">
-          <div class="info-item">
+        <div class="info card">
+          <div class="info-title">
+            <span v-text="'活跃信息'"></span>
+          </div>
+          <div class="info-list">
+            <div class="info-item">
               <span class="label" v-text="'关注了'"></span>
               <span class="count" v-text="data.likedAmount"></span>
             </div>
@@ -106,8 +111,8 @@
               <span class="label" v-text="'被收藏'"></span>
               <span class="count" v-text="data.collectedAmount"></span>
             </div>
+          </div>
         </div>
-       </div>
       </div>
     </div>
   </div>
@@ -148,11 +153,11 @@ export default {
   },
   methods: {
     handleGotoSetting() {
-      this.$router.push({name: 'setting'})
+      this.$router.push({ name: "setting" });
     },
     handleSelect(key) {
-      if(this.$route.name.includes(key)) return
-      this.$router.push({name: key})
+      if (this.$route.name.includes(key)) return;
+      this.$router.push({ name: key });
     },
   },
 };
@@ -257,7 +262,7 @@ export default {
           font-size: 1.1rem;
         }
 
-        .user-content{
+        .user-content {
           width: 100%;
         }
       }
@@ -265,9 +270,8 @@ export default {
 
     .right-box {
       width: 15rem;
-      .info{
-
-        .info-title{
+      .info {
+        .info-title {
           height: 3rem;
           line-height: 3rem;
           padding: 0 1rem;

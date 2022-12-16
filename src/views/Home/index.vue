@@ -57,12 +57,13 @@ const passageList = [
       "https://tva1.sinaimg.cn/large/008cs7isly8h88hfgvz1qj31ao0t6n3x.jpg",
     publishTime: "2022-11-1 19:00:00",
     title: "何劳荣一案，到底谁是真正的主谋？个人理解，大家交流一下",
-    content:
+    discription:
       "何劳荣， 山东人， 爱吃河粉，爱吃蔬菜，多运动，邵淑华，山西二年，杀害李某某一家",
     view: "6.1w",
     dianzan: "372",
     comment: "271",
     isview: false,
+    type: "文章",
   },
   {
     id: "21321312",
@@ -73,7 +74,7 @@ const passageList = [
       "https://tva1.sinaimg.cn/large/008cs7isly8h88hfgvz1qj31ao0t6n3x.jpg",
     publishTime: "2022-10-25 19:00:00",
     title: "这里有一个简单辩论，大家交流一下",
-    content:
+    discription:
       "王大父杀人案   被贵人王大霞因丕满李良才与其争变瓷砖生意:产生杀人恶念:2002年3月18日晚8时资;" +
       "被告人王大雷把雇请的丢卫、马本全召到其在四川省成都市的住处，被告人米军、付强受被告" +
       "人王卫的邀约也一同前往。被告人王大雷对被告人王卫等四人说:“我有个老乡在跟我争夺销售" +
@@ -93,21 +94,26 @@ const passageList = [
     dianzan: "255",
     comment: "1000",
     isview: false,
+    type: "文章",
   },
   {
-    id: "264556",
-    username: "文武双全",
+    id: "561651",
+    username: "狂徒张三",
     userImage: "",
-    publishImage: "",
-    publishTime: "2022-10-03 19:00:00",
-    title: "类案匹配模糊，如何扩大精准范围？",
-    content:
-      "何劳荣， 山东人， 爱吃河粉，爱吃蔬菜，多运动，邵淑华，山西二年，杀害李某某一家321321311231321312",
-
-    view: "10w",
-    dianzan: "255",
-    comment: "1000",
-    isview: false,
+    publishTime: "2022-11-11 11:11:11",
+    view: 1111,
+    type: '话题',
+    title: "何劳荣一案，谁是最大的获益者？",
+    discription:
+      "合理化建议和技术改进奖励条例 （国发[1982]43号 一九八二年三月十六日国 务院颁布） 第一章 总 则 第一条 为了鼓励职工积极提合理化建议，努力进行技术革新，促进国 民经济的发展，加快社会主义现代化建设，制定本条例。 第二条 凡是职工（集体或个人）提出的有关改 进生产的合理化建议或技术改进，经过实验研究和实际应用，使某一单位的生产或工作取得显著效益的，均按 本条例给予奖励。 第三条 合理化建议和技术改进的内容包括以下各类： （一） 工业产品、建筑结 构的改进和质量的提高，生物品种的改良和发展，以及发展新产品。 ",
+    category: "刑事案件",
+    tags: ["争议焦点", "典型"],
+    topics: [
+      { id: "0", title: "谁是主谋？" },
+      { id: "1", title: "既得利益者" },
+      { id: "2", title: "反映社会现实" },
+      { id: "3", title: "不同立场的社会观念不同" },
+    ],
   },
   {
     id: "4374376",
@@ -120,7 +126,8 @@ const passageList = [
     title: "CLF平台的搭建一体化流程文档",
     category: "类案",
     tags: ["项目创建", "CLF"],
-    content: `# CLF项目介绍
+    type: "文章",
+    discription: `# CLF项目介绍
 一个专为法律人打造的社交、辩论，答疑平台，基于智能文本抽取算法，可以进行文本抽取，文案生成，法律辩论和信息检索
 
 ## 业务架构
@@ -180,20 +187,21 @@ https://victinsever.github.io/MIPT/dist/index.html
     username: "暴力美学",
     publishTime: "2022-11-2 20:20:00",
     title: "这里有一个简单辩论，大家交流一下",
-    content:
+    discription:
       "何劳荣， 山东人， 爱吃河粉，爱吃蔬菜，多运动，邵淑华，山西二年，杀害李某某一家321321311231321312",
 
     view: "10w",
     dianzan: "255",
     comment: "1000",
     isview: false,
+    type: "话题",
   },
   {
     id: "4325435",
     username: "暴力美学",
     publishTime: "2022-11-2 20:37:30",
     title: "这里有一个简单辩论，大家交流一下",
-    content:
+    discription:
       "何劳荣， 山东人， 爱吃河粉，爱吃蔬菜，多运动，邵淑华，山西二年，杀害李某某一家321321311231321312",
 
     view: "10w",
@@ -206,7 +214,7 @@ https://victinsever.github.io/MIPT/dist/index.html
     username: "暴力美学",
     publishTime: "2022-10-25 19:00:00",
     title: "这里有一个简单辩论，大家交流一下",
-    content:
+    discription:
       "何劳荣， 山东人， 爱吃河粉，爱吃蔬菜，多运动，邵淑华，山西二年，杀害李某某一家321321311231321312",
 
     view: "10w",
@@ -219,7 +227,7 @@ https://victinsever.github.io/MIPT/dist/index.html
     username: "暴力美学",
     publishTime: "2022-10-25 19:00:00",
     title: "这里有一个简单辩论，大家交流一下",
-    content:
+    discription:
       "何劳荣， 山东人， 爱吃河粉，爱吃蔬菜，多运动，邵淑华，山西二年，杀害李某某一家321321311231321312",
 
     view: "10w",
@@ -232,7 +240,7 @@ https://victinsever.github.io/MIPT/dist/index.html
     username: "暴力美学",
     publishTime: "2022-10-25 19:00:00",
     title: "这里有一个简单辩论，大家交流一下",
-    content:
+    discription:
       "何劳荣， 山东人， 爱吃河粉，爱吃蔬菜，多运动，邵淑华，山西二年，杀害李某某一家321321311231321312",
 
     view: "10w",
@@ -245,7 +253,7 @@ https://victinsever.github.io/MIPT/dist/index.html
     username: "暴力美学",
     publishTime: "2022-10-25 19:00:00",
     title: "这里有一个简单辩论，大家交流一下",
-    content:
+    discription:
       "何劳荣， 山东人， 爱吃河粉，爱吃蔬菜，多运动，邵淑华，山西二年，杀害李某某一家321321311231321312",
 
     view: "10w",
@@ -329,7 +337,10 @@ export default {
 
     // 监听鼠标位置，在到达地步150px长度触底，进行数据懒加载
     handleScroll() {
-      if (window.pageYOffset + window.innerHeight >= document.body.offsetHeight - 150) {
+      if (
+        window.pageYOffset + window.innerHeight >=
+        document.body.offsetHeight - 150
+      ) {
         this.loadTimes++;
         this.page.pageNum++;
         this.getData();

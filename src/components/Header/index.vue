@@ -133,7 +133,7 @@
 const menus = [
   { label: "首页", urlname: "home", id: 0 },
   { label: "工具箱", urlname: "tool", id: 1 },
-  { label: "案例大厅", urlname: "arguments", id: 2 },
+  // { label: "案例大厅", urlname: "arguments", id: 2 },
   { label: "课程学习", urlname: "course", id: 3 },
   { label: "周边商城", urlname: "shop", id: 4 },
 ];
@@ -153,7 +153,7 @@ export default {
       selectActive: "",
       selectList,
       menus,
-      activeIndex: 1,
+      activeIndex: 0,
       messageNum: 1,
       keyword: "",
       dialogVisible: false, //是否显示登录组件

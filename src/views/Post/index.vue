@@ -10,7 +10,10 @@
           <div class="publishInfo">
             <div class="left-box">
               <el-image :src="data.userImage" v-if="data.userImage"></el-image>
-              <el-image src="https://tva2.sinaimg.cn/large/008cs7isly8h88i9ec08sj30u00u379u.jpg" v-else></el-image>
+              <el-image
+                src="https://tva2.sinaimg.cn/large/008cs7isly8h88i9ec08sj30u00u379u.jpg"
+                v-else
+              ></el-image>
             </div>
             <div class="right-box">
               <!-- 一般信息 -->
@@ -60,6 +63,9 @@
           </div>
         </div>
         <div class="comment card">
+          <div class="input-header">
+            <h3>评论</h3>
+          </div>
           <PostComment />
         </div>
       </div>
@@ -86,11 +92,12 @@ export default {
   },
   mounted() {
     console.log(this.$route.params);
-  }
+  },
 };
 </script>
 
 <style lang='scss' scoped>
+
 .post {
   width: 100%;
 
@@ -189,6 +196,14 @@ export default {
       top: 140px;
       z-index: 2;
     }
+  }
+}
+
+.input-header {
+  margin-bottom: 2rem;
+
+  h3 {
+    color: #252933;
   }
 }
 

@@ -1,27 +1,33 @@
 <template>
-  <div :class="'passage-item' + (item.isView ? ' viewed' : '')" @click="gotoPost(item)">
+  <div
+    :class="'passage-item' + (item.isView ? ' viewed' : '')"
+    @click="gotoPost(item)"
+  >
     <div class="item-top">
       <span class="username">{{ item.username }}</span>
       <span>|</span>
       <span>{{ passTime }}</span>
+      <span v-text="item.type" :class="item.type == '文章' ? 'type-passage' : 'type-topic'"></span>
     </div>
 
     <div class="item-main">
       <h4 class="title" v-html="highlight(item.title)"></h4>
-      <p class="discription" v-html="highlight(item.content)"></p>
+      <p class="discription" v-html="highlight(item.discription)"></p>
     </div>
     <div class="item-bottom">
-      <span class="iconfont icon-view"> {{ " " + item.view }}</span>
-      <span class="iconfont icon-31dianzan"> {{ " " + item.dianzan }}</span>
+      <span class="iconfont icon-view"> {{ " " + (item.view || 0) }}</span>
+      <span class="iconfont icon-31dianzan">
+        {{ " " + (item.dianzan || 0) }}</span
+      >
       <span class="iconfont icon-pinglun">
-        {{ " " + item.comment }}</span
+        {{ " " + (item.comment || 0) }}</span
       >
     </div>
   </div>
 </template>
 
 <script>
-import { getNumberOfDays } from '@/utils/index';
+import { getNumberOfDays } from "@/utils/index";
 export default {
   name: "passageItem",
   props: {
@@ -30,41 +36,50 @@ export default {
       default: {
         id: "",
         username: "xxx",
-        userImage: '',
-        publishImage: '',
-        publishTime: "",    
+        userImage: "",
+        publishImage: "",
+        publishTime: "",
         title: "",
-        content:"",
+        discription: "",
         view: "",
         dianzan: "",
         comment: "",
         isview: false,
-      }
-    }
+      },
+    },
   },
   computed: {
     passTime() {
-      return getNumberOfDays(this.item.publishTime)
+      return getNumberOfDays(this.item.publishTime);
     },
     keyword() {
-      return this.$route.query.query || ''
-    }
+      return this.$route.query.query || "";
+    },
   },
   methods: {
     // 添加高亮
     highlight(str) {
-      const arr = str.split(this.keyword)
-      return arr.join(`<span style="color: red;">${this.keyword}</span>`)
+      const arr = str.split(this.keyword);
+      return arr.join(`<span style="color: red;">${this.keyword}</span>`);
     },
 
     // 跳转到文章详情
     gotoPost(item) {
-      this.$router.push({
-        name: 'post',
-        params: {
-          ...item
-        }
-      })
+      if (item.type == "文章") {
+        this.$router.push({
+          name: "post",
+          params: {
+            ...item,
+          },
+        });
+      }else{
+        this.$router.push({
+          name: "topic",
+          params: {
+            ...item,
+          },
+        });
+      }
     },
   },
 };
@@ -88,6 +103,14 @@ export default {
 
     span {
       padding-right: 10px;
+    }
+
+    .type-topic{
+      color: var(--bgc-clr2);
+    }
+
+    .type-passage{
+      color: var(--pink-1);
     }
   }
 

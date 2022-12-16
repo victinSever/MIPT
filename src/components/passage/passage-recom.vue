@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     gotoLink(id) {
-      this.$message.warning("暂不支持访问他人博客主页！");
+      this.$message.warning("暂不支持访问他人主页！");
     },
   },
 };

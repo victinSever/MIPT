@@ -1,9 +1,7 @@
 <template>
   <div class="commentComponent">
     <div class="comment">
-      <div class="input-header header">
-        <h3>评论</h3>
-      </div>
+
       <div class="input-box">
         <div class="left-box">
           <el-image :src="user.userImage" v-if="user.userImage"></el-image>
@@ -126,15 +124,15 @@ export default {
       },
     ];
     return {
-      imageUrl:
-        "https://tva3.sinaimg.cn/large/008cs7isly8h7u5on9iu5j30u00u0q5i.jpg",
       commentText: "",
       comments: comments,
     };
   },
   computed: {
     user() {
-      return this.$store.state.user.token ? this.$store.state.user.userInfo : false;
+      return this.$store.state.user.token
+        ? this.$store.state.user.userInfo
+        : false;
     },
   },
   methods: {

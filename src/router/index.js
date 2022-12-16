@@ -45,7 +45,7 @@ const routes = [
     {
         path: '/shop',
         name: 'shop',
-        meta: { title: '周边商城'},
+        meta: { title: '周边商城', hiddenHeader: true},
         component: () => import('@/views/Shop'),
     },
     {

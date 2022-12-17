@@ -250,8 +250,8 @@ export default {
     // 信息不合法命名规则
     return {
       passForm: {
-        username: "",
-        password: "",
+        username: "jlh",
+        password: "123",
         ip: "",
       },
       phoneForm: {
@@ -269,7 +269,6 @@ export default {
         code: "",
         password: "",
       },
-      ip: "",
       phonePre: "",
       sendCodeTime: 0, //是否在一分钟内发送过验证码,验证码发送倒计时
       sendEmailCodeTime: 0,
@@ -280,8 +279,9 @@ export default {
   },
   methods: {
     ...mapMutations("user", ["UpdateUserInfo", "UpdateToken"]),
-    ...mapActions("user", ["getUserIP", "getLoginByPass", "getLoginByPhone", "sendPhoneCode",
+    ...mapActions("user", [ "getLoginByPass", "getLoginByPhone", "sendPhoneCode",
     "retrievePasswordByPhone", "retrievePasswordByEmail"]),
+    ...mapActions('ip',['getUserIP']),
 
     
     // 切换登录方式
@@ -296,35 +296,41 @@ export default {
         const objStr = data.data.split("= ")[1].split(";")[0];
         //执行js代码
         const obj = eval("(" + objStr + ")");
-        this.ip = obj.cip;
+        this.passForm.ip = obj.cip;
       } catch (e) {
         this.$message.error(e);
       }
     },
     // 请求：账密登录，并处理信息
     async loginByPass() {
-      // this.passForm.ip = this.ip;
-      // const { data: res } = await this.getLoginByPass(this.passForm);
-      // if (res.code === 200) {
-      //   this.$message.success("登录成功！");
-      //   this.UpdateUserInfo(res.data);
-      //   this.UpdateToken(res.data.token);
-      //   this.$emit("closeDialog");
-      //   this.resetForm('passForm')
-      // }
-      // else this.$message.warning(res.msg);  
-      this.$message.success("登录成功！"); 
-      this.UpdateToken('123');
-      this.UpdateUserInfo({
-          userImage: 'https://tva3.sinaimg.cn/large/008cs7isly8h7u5on9iu5j30u00u0q5i.jpg',
-          username: '狂徒张三',
-          level: 7,
-          role: '法律从业者',
-          phone: '15730363265',
-          email: 'victinzhong@163.com'
-        });
-      this.$emit("closeDialog");
-      this.resetForm('passForm')
+      try {
+        console.log(this.passForm);
+      const { data: res } = await this.getLoginByPass(this.passForm);
+      console.log(res);
+      if (res.code === 200) {
+        this.$message.success("登录成功！");
+        this.UpdateUserInfo(res.data);
+        this.UpdateToken(res.data.token);
+        this.$emit("closeDialog");
+        this.resetForm('passForm')
+      }else{
+        this.$message.warning(res.message);
+      }
+      } catch (e) {
+        this.$message.error(e);
+      }
+      // this.$message.success("登录成功！"); 
+      // this.UpdateToken('123');
+      // this.UpdateUserInfo({
+      //     userImage: 'https://tva3.sinaimg.cn/large/008cs7isly8h7u5on9iu5j30u00u0q5i.jpg',
+      //     username: '狂徒张三',
+      //     level: 7,
+      //     role: '法律从业者',
+      //     phone: '15730363265',
+      //     email: 'victinzhong@163.com'
+      //   });
+      // this.$emit("closeDialog");
+      // this.resetForm('passForm')
       
     },
     submitForm() {

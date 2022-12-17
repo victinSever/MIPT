@@ -3,7 +3,8 @@
     :class="'passage-item' + (item.isView ? ' viewed' : '')"
     @click="gotoPost(item)"
   >
-    <div class="item-top">
+    <div class="item-left">
+      <div class="item-top">
       <span class="username">{{ item.username }}</span>
       <span>|</span>
       <span>{{ passTime }}</span>
@@ -11,17 +12,23 @@
     </div>
 
     <div class="item-main">
-      <h4 class="title" v-html="highlight(item.title)"></h4>
-      <p class="discription" v-html="highlight(item.discription)"></p>
+      <h4 class="title" v-html="highlight(item.title)" :style="(item.isView ? 'color: var(--grey-font-1)' : '')"></h4>
+      <p class="summarize" v-html="highlight(item.summarize)"></p>
     </div>
     <div class="item-bottom">
-      <span class="iconfont icon-view"> {{ " " + (item.view || 0) }}</span>
+      <span class="iconfont icon-view"> {{ " " + (item.views || 0) }}</span>
       <span class="iconfont icon-31dianzan">
-        {{ " " + (item.dianzan || 0) }}</span
+        {{ " " + (item.zan || 0) }}</span
       >
       <span class="iconfont icon-pinglun">
-        {{ " " + (item.comment || 0) }}</span
+        {{ " " + (item.comments || 0) }}</span
       >
+    </div>
+    
+    </div>
+
+    <div class="item-right">
+      <el-image :src="item.publishImage" alt=""></el-image>
     </div>
   </div>
 </template>
@@ -33,19 +40,7 @@ export default {
   props: {
     item: {
       type: Object,
-      default: {
-        id: "",
-        username: "xxx",
-        userImage: "",
-        publishImage: "",
-        publishTime: "",
-        title: "",
-        discription: "",
-        view: "",
-        dianzan: "",
-        comment: "",
-        isview: false,
-      },
+      default: {},
     },
   },
   computed: {
@@ -91,10 +86,31 @@ export default {
   border-bottom: 1px solid #ddd9d9;
   cursor: pointer;
   font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .item-left{
+    width: 65%;
+    display: flex;
+    // justify-content: space-between;
+    flex-direction: column;
+
+    .item-top{
+      margin-bottom: 1rem;
+    }
+  }
+
+  .item-right{  
+    width: 30%;
+
+    .el-image{
+      width: 100%;
+    }
+  }
 
   .item-top,
   .item-bottom {
-    margin-bottom: 5px;
     color: #71777c;
 
     .username {
@@ -122,7 +138,7 @@ export default {
       margin-bottom: 10px;
     }
 
-    .discription {
+    .summarize {
       color: #86909c;
       line-height: 23px;
       max-height: 50px;
@@ -136,6 +152,7 @@ export default {
   }
 
   .item-bottom {
+    height: 1rem;
     color: #2f3133;
 
     .iconfont {

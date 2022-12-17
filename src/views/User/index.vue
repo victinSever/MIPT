@@ -7,7 +7,7 @@
             <!-- 信息区 -->
             <div class="user-data">
               <el-image
-                :src="user.userImage"
+                :src="user.header"
                 alt=""
                 class="userImage"
               ></el-image>

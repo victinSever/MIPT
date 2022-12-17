@@ -47,6 +47,8 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+import { throttle } from "@/utils";
 const passageList = [
   {
     id: "12312",
@@ -102,7 +104,7 @@ const passageList = [
     userImage: "",
     publishTime: "2022-11-11 11:11:11",
     view: 1111,
-    type: '话题',
+    type: "话题",
     title: "何劳荣一案，谁是最大的获益者？",
     discription:
       "合理化建议和技术改进奖励条例 （国发[1982]43号 一九八二年三月十六日国 务院颁布） 第一章 总 则 第一条 为了鼓励职工积极提合理化建议，努力进行技术革新，促进国 民经济的发展，加快社会主义现代化建设，制定本条例。 第二条 凡是职工（集体或个人）提出的有关改 进生产的合理化建议或技术改进，经过实验研究和实际应用，使某一单位的生产或工作取得显著效益的，均按 本条例给予奖励。 第三条 合理化建议和技术改进的内容包括以下各类： （一） 工业产品、建筑结 构的改进和质量的提高，生物品种的改良和发展，以及发展新产品。 ",
@@ -311,9 +313,9 @@ export default {
       isLoading: false,
 
       // 文章分页，下拉刷新增加一页，固定大小为5条
-      page: {
-        pageSize: 5,
-        pageNum: 1,
+      pageMap: {
+        page: 1,
+        limit: 5,
       },
     };
   },
@@ -321,51 +323,60 @@ export default {
     window.addEventListener("scroll", this.handleScroll, true);
     this.getData();
   },
-  destroyed() {
+  unmounted() {
     window.removeEventListener("scroll", this.handleScroll);
   },
+  computed: {
+    user() {
+      return this.$store.state.user.userInfo || false;
+    },
+  },
   methods: {
+    ...mapActions("passage", ["getPassageList"]),
 
     // 根据新条件添加数据
-    getNewData() {
-      this.isLoading = true;
-      this.passageList = []
-      setTimeout(() => {
-        this.passageList = passageList
+    async getData(type) {
+      try {
+        const params = {
+          ...this.pageMap,
+          choice: this.orderActive,
+          userId: this.user && this.user.id ? this.user.id : "",
+        };
+        this.isLoading = true;
+        const { data: res } = await this.getPassageList(params);
         this.isLoading = false;
-      }, 500);
+        if (res.code !== 200) return this.$message.warning('没有更多数据了');
+        this.passageList = type
+          ? this.passageList.concat(res.data.list)
+          : res.data.list;
+      } catch (e) {
+        this.$message.error(e);
+      }
     },
 
-    // 根据条件不断增加数据
-    async getData() {
-      if (this.isLoading) return; //节流
-
-      this.isLoading = true;
-      setTimeout(() => {
-        this.passageList = this.passageList.concat(passageList);
-        this.isLoading = false;
-      }, 500);
+    addPage() {
+      this.pageMap.page++;
+      this.getData(true);
     },
 
     // 监听鼠标位置，在到达地步150px长度触底，进行数据懒加载
     handleScroll() {
-      if (
-        window.pageYOffset + window.innerHeight >=
-        document.body.offsetHeight - 150
-      ) {
-        this.loadTimes++;
-        this.page.pageNum++;
-        this.getData();
+      const dis =
+        document.body.offsetHeight - window.pageYOffset - window.innerHeight;
+      if (dis <= 1) {
+        if (this.isLoading) return; //节流
+        let that = this;
+        throttle(that.addPage(), 500); //节流函数，每500ms触发一次
       }
     },
 
     handleChangeTagActive(id) {
       this.tagActive = id;
-      this.getNewData();
+      this.getData();
     },
     handleChangeOrderActive(id) {
       this.orderActive = id;
-      this.getNewData();
+      this.getData();
     },
   },
 };
@@ -419,7 +430,10 @@ export default {
 
     .message-left {
       width: 75%;
-      background-color: #fff;
+
+      .box-card {
+        min-height: 100vh;
+      }
     }
 
     .message-right {

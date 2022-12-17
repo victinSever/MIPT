@@ -83,7 +83,7 @@
             >
               <BaseInfo />
               <div class="user-img" slot="reference">
-                <el-image :src="user.userImage" alt="" />
+                <el-image :src="user.header" alt="" />
               </div>
             </el-popover>
             <el-button

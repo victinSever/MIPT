@@ -43,6 +43,33 @@ const getNumberOfDays = function (date1, date2 = new Date()) {
  */
 const generateRandomHexColor = () => `#${Math.floor(Math.random() * 0xffffff).toString(16)}`
 
+/**
+ * 节流器
+ * @param {} fun 
+ * @param {*} delay 
+ * @returns 
+ */
+function throttle(fun, delay) {
+    let last, deferTimer
+    return function (args) {
+        let that = this;
+        let _args = arguments;
+
+        let now = +new Date();
+        if (last && now < last + delay) {
+            clearTimeout(deferTimer);
+            deferTimer = setTimeout(function () {
+                last = now;
+                fun.apply(that, _args);
+            }, delay)
+        } else {
+            last = now;
+            fun.apply(that, _args);
+        }
+    }
+}
+
+
 export {
-    getUUID, getNumberOfDays, generateRandomHexColor
+    getUUID, getNumberOfDays, generateRandomHexColor, throttle
 }

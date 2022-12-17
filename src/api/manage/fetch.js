@@ -1,23 +1,23 @@
 import axios from 'axios'
-import {ipUrl, baseUrl, ipBaseUrl, ipBaseUrlProxy} from './config'
+
+let baseUrl = 'https://53r23232p6.goho.co/api'
 
 export default async (
     url = '', 
     type = 'GET', 
     params = {}, 
     header = {}, 
-    proxyUrl = ''
     ) => {
 
-    // if(!url.includes('/ip') && !url.includes('imageSever')) url = '/serve' + url
+    url = baseUrl + url
 
-    // type = type.toUpperCase()
+    type = type.toUpperCase()
 
-    // if(type === 'POST') {
-    //     return await axios({
-    //         method: type, url, data: params, header
-    //     })
-    // }
+    if(type === 'POST') {
+        return await axios({
+            method: type, url, data: params, header
+        })
+    }
 
     return await axios({
         method: type, url, params, header

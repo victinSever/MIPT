@@ -5,6 +5,8 @@ import user from './user.js'
 import image from './image.js'
 import law from './law.js'
 import tool from './tool.js'
+import ip from './ip.js'
+import passage from './passage.js'
 
 Vue.use(Vuex)
 
@@ -13,7 +15,9 @@ const store = new Vuex.Store({
         user,
         image,
         law,
-        tool
+        tool,
+        ip,
+        passage
     }
 })
   

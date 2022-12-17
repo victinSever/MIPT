@@ -151,6 +151,7 @@ export default {
           .display-item {
             margin: 0 1rem;
             color: var(--grey-font-1);
+            cursor: pointer;
 
             .iconfont {
               color: var(--grey-font-1);

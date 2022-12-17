@@ -47,6 +47,7 @@
                   <el-tag
                     size="samll"
                     :style="'color: #fff; background: ' + getColor()"
+                    @click="handleGotoBaidu(item1)"
                     round
                     v-text="item1"
                   ></el-tag>
@@ -72,6 +73,7 @@
                 size="medium"
                 v-text="item"
                 :style="'color: ' + getColor()"
+                @click="handleGotoBaidu(item)"
               ></el-tag>
             </div>
           </div>
@@ -116,6 +118,10 @@ export default {
   },
   methods: {
     ...mapActions("tool", ["getEntity"]),
+
+    handleGotoBaidu(text) {
+      window.open(`https://baidu.com/s?wd=${text}`, '_blank')
+    },
 
     // 获取随机颜色
     getColor() {
@@ -427,6 +433,7 @@ export default {
           margin-right: 0.8rem;
           margin-bottom: 0.5rem;
           color: var(--grey-font-2);
+          cursor: pointer;
         }
       }
     }
@@ -445,6 +452,7 @@ export default {
 
         .feature-item {
           margin: 0.5rem;
+          cursor: pointer;
         }
       }
     }

@@ -9,15 +9,15 @@ export default async (
     proxyUrl = ''
     ) => {
 
-    if(!url.includes('/ip') && !url.includes('imageSever')) url = '/serve' + url
+    // if(!url.includes('/ip') && !url.includes('imageSever')) url = '/serve' + url
 
-    type = type.toUpperCase()
+    // type = type.toUpperCase()
 
-    if(type === 'POST') {
-        return await axios({
-            method: type, url, data: params, header
-        })
-    }
+    // if(type === 'POST') {
+    //     return await axios({
+    //         method: type, url, data: params, header
+    //     })
+    // }
 
     return await axios({
         method: type, url, params, header

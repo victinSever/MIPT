@@ -45,6 +45,17 @@
 
       <router-view></router-view>
     </div>
+
+    <footer>
+      <div>
+        注：本接口功能还处在一定的实践阶段，此处只作为工具接口使用，如需进一步接触，请以邮箱联系。
+      </div>
+      <div>@copyright 2022-12-17 重庆理工大学计算机工程学院A&C实验室</div>
+      <div class="link">
+        <p>邮箱： <span>victinzhong@163.com</span></p>
+        <p>QQ: <span>1845739645</span></p>
+      </div>
+    </footer>
   </div>
 </template>
 
@@ -120,7 +131,7 @@ export default {
   .centerBox {
     width: 70rem;
     margin: 0 auto;
-    min-height: 100vh;
+    min-height: 90vh;
     // background-color: #33566a;
 
     .header {
@@ -202,6 +213,31 @@ export default {
         background-color: #33566a;
         padding: 0.7rem 4rem;
       }
+    }
+  }
+}
+
+footer {
+  margin-top: 2rem;
+  background-color: #fff;
+  padding: 1rem 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0.625rem 1.875rem -0.9375rem var(--box-bg-shadow);
+  color: var(--grey-font-2);
+
+  &>div{
+    line-height: 2rem;
+  }
+
+  .link{
+    display: flex;
+
+    p{
+      margin: 0 1rem;
     }
   }
 }

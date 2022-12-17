@@ -33,8 +33,8 @@ Vue.directive('highlight', function (el) {
 // 也可以把这自定义指令封装 通过Vue.use()，来注入
 
 // 引入echarts
-import * as echarts from 'echarts';
-Vue.prototype.$echarts = echarts
+// import * as echarts from 'echarts';
+// Vue.prototype.$echarts = echarts
 
 // 引入npgrogress
 import nprogress from 'nprogress'

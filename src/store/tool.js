@@ -8,7 +8,6 @@ export default {
         // 对模型接口进行文书实体抽取
         async getEntity(state, payload) {
             return await axios({method: 'post', url: lawUrl, data: payload})
-        },
-        
+        },       
     }
 }

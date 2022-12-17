@@ -2,12 +2,12 @@
   <div class="root">
     <div class="sides">
       <div class="executive table">
-        <h3 v-text="'地域及法院'"></h3>
+        <h3 v-text="'执行机关'"></h3>
         <ul class="infinite-list">
           <li
             v-for="(item, index) in cateObj.executive"
             class="infinite-list-item"
-            @click="handleSelectTag(item, '地域及法院')"
+            @click="handleSelectTag(item, 'executive')"
             :key="index"
           >
             {{ item }}
@@ -15,25 +15,25 @@
         </ul>
       </div>
       <div class="timeliness table">
-        <h3 v-text="'有效期'"></h3>
+        <h3 v-text="'时效性'"></h3>
         <ul class="infinite-list">
           <li
             v-for="(item, index) in cateObj.timeliness"
             class="infinite-list-item"
             :key="index"
-            @click="handleSelectTag(item, '有效期')"
+            @click="handleSelectTag(item, 'timeliness')"
           >
             {{ item }}
           </li>
         </ul>
       </div>
       <div class="category table">
-        <h3 v-text="'法规类型'"></h3>
+        <h3 v-text="'种类'"></h3>
         <ul class="infinite-list">
           <li
             v-for="(item, index) in cateObj.category"
             class="infinite-list-item"
-            @click="handleSelectTag(item, '类型')"
+            @click="handleSelectTag(item, 'category')"
             :key="index"
           >
             {{ item }}
@@ -41,12 +41,12 @@
         </ul>
       </div>
       <div class="legalDepartment table">
-        <h3 v-text="'部门'"></h3>
+        <h3 v-text="'法务部'"></h3>
         <ul class="infinite-list">
           <li
             v-for="(item, index) in cateObj.legalDepartment"
             class="infinite-list-item"
-            @click="handleSelectTag(item, '部门')"
+            @click="handleSelectTag(item, 'legalDepartment')"
             :key="index"
           >
             {{ item }}
@@ -73,7 +73,10 @@
         <div class="tag-list">
           <div class="tag-item" v-for="item in selectTags" :key="item.label">
             <span class="label" v-text="item.type + '：' + item.label"></span>
-            <span class="iconfont icon-quxiao"></span>
+            <span
+              class="iconfont icon-quxiao"
+              @click="handleQvxiao(item)"
+            ></span>
           </div>
         </div>
       </div>
@@ -87,12 +90,12 @@
           <div class="top-divider"></div>
         </div>
 
-        <LawList :lawList="lawList" :keyword="keyword" />
+        <LawList :lawList="lawList" :keyword="paramMap.keyword" />
         <div class="pagination-box">
           <el-pagination
             background
-            :page-size="page.pageSize"
-            :current-page="page.pageNum"
+            :page-size="pageMap.size"
+            :current-page="pageMap.page"
             layout="total, sizes, prev, pager, next, jumper"
             :total="total"
             :page-sizes="[5, 8, 10, 15, 20]"
@@ -108,82 +111,21 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import LawList from "@/components/law/law-list.vue";
-const cateObj = {
-  code: 200,
-  msg: "",
-  data: {
-    executive: [
-      "机构沿革",
-      "贵州省人大(含常委会)",
-      "江苏省人大(含常委会)",
-      "重庆市人大(含常委会)",
-      "黑龙江省人大(含常委会)",
-      "浙江省人大(含常委会)",
-    ],
-    timeliness: ["现行有效", "已被修改", "失效", "部分失效", "尚未生效"],
-    category: [
-      "省级地方性法规",
-      "设区的市地方性法规",
-      "法律",
-      "地方政府规章",
-      "经济特区法规",
-      "行政法规",
-      "自治条例和单行条例",
-    ],
-    legalDepartment: [
-      "",
-      "行政法",
-      "民法商法",
-      "经济法",
-      "社会法",
-      "刑法",
-      "宪法相关法",
-      "诉讼与非诉讼程序法",
-    ],
-  },
-};
-
-const lawObj = {
-  code: 200,
-  msg: "",
-  data: {
-    total: 10000,
-    records: [
-      {
-        id: "636e8efad21eb61f445f7d79",
-        title: "合理化建议和技术改进奖励条例已被修改",
-        executive: "国务院",
-        outgoing: "国发〔1982〕43号",
-        publishDate: "1982-03-15T16:00:00.000+00:00",
-        effectiveDate: "1982-03-15T16:00:00.000+00:00",
-        timeliness: "已被修改",
-        category: "行政法规",
-        legalDepartment: "",
-        contentCode: "",
-      },
-      {
-        id: "636e8efa2641149fffcde681",
-        title: "征收排污费暂行办法失效",
-        executive: "国务院",
-        outgoing: "国发〔1982〕21号",
-        publishDate: "1982-02-04T16:00:00.000+00:00",
-        effectiveDate: "1982-06-30T16:00:00.000+00:00",
-        timeliness: "失效",
-        category: "行政法规",
-        legalDepartment: "",
-        contentCode: "",
-      },
-    ],
-  },
-};
 
 export default {
   name: "lawPage",
   components: { LawList },
   data() {
     return {
-      keyword: "",
+      paramMap: {
+        key: "",
+        executive: "",
+        timeliness: "",
+        category: "",
+        legalDepartment: "",
+      },
 
       searchObj: {}, //搜索
 
@@ -193,9 +135,9 @@ export default {
 
       lawList: [], //搜索结果
       total: 0,
-      page: {
-        pageSize: 5,
-        pageNum: 1,
+      pageMap: {
+        size: 5,
+        page: 1,
       },
     };
   },
@@ -204,47 +146,106 @@ export default {
     this.getLawList();
   },
   watch: {
-    '$route': {
+    $route: {
       handler() {
-        this.keyword = this.$route.query.key ? this.$route.query.key : "";
+        this.paramMap.key = this.$route.query.key
+          ? this.$route.query.key
+          : "";
         this.selectTags = this.selectTags.filter((item) => {
           return item.type !== "关键词";
         });
-        this.selectTags.push({ type: "关键词", label: this.keyword });
+        this.selectTags.push({ type: "关键词", label: this.paramMap.key, key:'keyword' });
       },
       immediate: true,
     },
   },
   methods: {
+    ...mapActions("law", ["getlawCategory", "getlawList"]),
+
+    // 取消选择
+    handleQvxiao(obj) {
+      this.selectTags = this.selectTags.filter((item) => {
+        return obj.type !== item.type;
+      });
+      this.paramMap[obj.key] = ''
+      this.getCateObj()
+      this.getLawList()
+    },
     //选择标签：同类型标签只能有一种
     handleSelectTag(item, type) {
+      let value = "";
+      switch (type) {
+        case "executive":
+          value = "执行机关";
+          break;
+        case "timeliness":
+          value = "时效性";
+          break;
+        case "category":
+          value = "种类";
+          break;
+        case "legalDepartment":
+          value = "法务部";
+          break;
+      }
       this.selectTags = this.selectTags.filter((item) => {
-        return type !== item.type;
+        return value !== item.type;
       });
 
       this.selectTags.push({
         label: item,
-        type: type,
+        type: value,
+        key: type
       });
+      this.paramMap[type] = item;
+      this.getCateObj();
+      this.getLawList();
     },
     // 清空搜索条件
     handleClearTag() {
       this.selectTags = [];
+      this.paramMap = {
+        keyword: "",
+        executive: "",
+        timeliness: "",
+        category: "",
+        legalDepartment: "",
+      };
     },
-
     // 改变页面大小
     handleChangePageNum(num) {
-      this.page.pageNum = num;
+      this.pageMap.page = num;
+      this.getLawList();
     },
     handleChangePageSize(num) {
-      this.page.pageSize = num;
+      this.pageMap.size = num;
+      this.getLawList();
     },
+    // 获取种类
     async getCateObj() {
-      this.cateObj = cateObj.data;
+      try {
+        const { data: res } = await this.getlawCategory(this.paramMap);
+        this.cateObj = res.data;
+      } catch (e) {
+        this.$message.error(e);
+      }
     },
+    // 分页查询
     async getLawList() {
-      this.lawList = lawObj.data.records;
-      this.total = lawObj.data.total;
+      try {
+        console.log({
+          ...this.paramMap,
+          ...this.pageMap,
+        });
+        const { data: res } = await this.getlawList({
+          ...this.paramMap,
+          ...this.pageMap,
+        });
+        this.lawList = res.data.records;
+        this.total = res.data.total;
+      } catch (e) {
+        this.$message.error(e);
+      }
     },
   },
 };
@@ -252,7 +253,7 @@ export default {
 
 <style scoped lang='scss'>
 .root {
-  width: 70%;
+  width: 80rem;
   margin: 0 auto;
   margin-top: 1rem;
   display: flex;
